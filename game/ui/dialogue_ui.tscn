@@ -35,7 +35,7 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 64.0
-offset_top = -188.0
+offset_top = -280.0
 offset_right = -64.0
 offset_bottom = -28.0
 grow_horizontal = 2
@@ -55,13 +55,19 @@ text = "Shopkeep"
 
 [node name="Body" type="RichTextLabel" parent="Root/Panel/VBox"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
 theme_override_colors/default_color = Color(0.14, 0.12, 0.1, 1)
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true
 fit_content = true
 text = "…"
+
+[node name="Choices" type="VBoxContainer" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Hint" type="Label" parent="Root/Panel/VBox"]
 unique_name_in_owner = true

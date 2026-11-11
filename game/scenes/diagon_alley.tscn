@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cdiagonalley01"]
+[gd_scene load_steps=18 format=3 uid="uid://cdiagonalley01"]
 
 [ext_resource type="Script" path="res://scripts/diagon_alley.gd" id="1_room"]
 [ext_resource type="PackedScene" path="res://characters/player.tscn" id="2_player"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" path="res://assets/pixel/prop_barrel.png" id="11_barrel"]
 [ext_resource type="Texture2D" path="res://assets/pixel/prop_lamp.png" id="12_lamp"]
 [ext_resource type="Texture2D" path="res://assets/pixel/bg_sky.png" id="13_sky"]
+[ext_resource type="PackedScene" path="res://scenes/scene_portal.tscn" id="14_portal"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(720, 24)
@@ -141,6 +142,17 @@ prop_name = "Barrel"
 
 [node name="Sprite2D" parent="Interactables/Barrel"]
 texture = ExtResource("11_barrel")
+
+[node name="ToHogwarts" parent="." instance=ExtResource("14_portal")]
+position = Vector2(0, -170)
+target_scene = "res://scenes/hogwarts_arrival.tscn"
+prompt_text = "E — Hogwarts"
+require_flag = &"talked_to_shopkeep"
+
+[node name="ToPrivet" parent="." instance=ExtResource("14_portal")]
+position = Vector2(0, 170)
+target_scene = "res://scenes/privet_drive.tscn"
+prompt_text = "E — Privet Drive"
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 100)

@@ -8,6 +8,7 @@ extends Node2D
 
 
 func _ready() -> void:
+	GameState.visited_diagon = true
 	_build_cobbles()
 	_camera.zoom = Vector2(2.4, 2.4)
 	var tween := create_tween()
@@ -16,7 +17,7 @@ func _ready() -> void:
 	_shopkeep.body_entered.connect(_on_shopkeep_entered)
 	_shopkeep.body_exited.connect(_on_shopkeep_exited)
 	SpellBook.spell_cast.connect(_on_spell_cast)
-	_hint.text = "WASD move · E talk · I satchel · 1–3 spells · J cast"
+	_hint.text = "WASD · E talk · I · 1–3/J · North door → Hogwarts"
 
 
 func _build_cobbles() -> void:
@@ -62,12 +63,17 @@ func _start_shop_dialogue() -> void:
 	GameState.talked_to_shopkeep = true
 	var lines := PackedStringArray([
 		"Welcome to Diagon Alley — cobbles still warm from the day's last deliveries.",
-		"Ollivanders is just ahead. Before you go, try your wand: Lumos for light, Leviosa for that crate, Flipendo for a shove.",
+		"Ollivanders is just ahead. Try Lumos, Leviosa, Flipendo — then the north door takes you on toward Hogwarts.",
 		"Press I for your satchel. Knuts and your letter are already packed.",
 	])
 	if GameState.crate_puzzle_done:
 		lines.append("Ah — floating crates already? You'll fit right in at Hogwarts.")
-	GameState.start_dialogue("Shopkeep", lines)
+	var choices: Array = [
+		{"text": "I'll practice my spells first.", "effects": {"ravenclaw": 1}},
+		{"text": "Point me toward adventure.", "effects": {"gryffindor": 1}},
+		{"text": "Any kindness for a first-timer?", "effects": {"hufflepuff": 1, "hermione_trust": 1}},
+	]
+	GameState.start_dialogue("Shopkeep", lines, choices, "How do you answer the shopkeep?")
 
 
 func _on_spell_cast(spell_id: StringName, _origin: Vector2, _facing: Vector2) -> void:
