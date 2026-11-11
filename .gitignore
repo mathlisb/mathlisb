@@ -1,0 +1,4 @@
+.godot/
+build/
+*.app
+.DS_Store

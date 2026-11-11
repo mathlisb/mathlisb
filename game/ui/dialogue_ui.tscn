@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdialogue001"]
+
+[ext_resource type="Script" path="res://scripts/dialogue_ui.gd" id="1_dlg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_parchment"]
+bg_color = Color(0.91, 0.863, 0.784, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.831, 0.659, 0.294, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 18.0
+content_margin_top = 14.0
+content_margin_right = 18.0
+content_margin_bottom = 12.0
+
+[node name="DialogueUI" type="CanvasLayer"]
+layer = 20
+script = ExtResource("1_dlg")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Panel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = -168.0
+offset_right = -48.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_parchment")
+
+[node name="VBox" type="VBoxContainer" parent="Root/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Speaker" type="Label" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.102, 0.239, 0.18, 1)
+theme_override_font_sizes/font_size = 18
+text = "Shopkeep"
+
+[node name="Body" type="RichTextLabel" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.11, 0.094, 0.078, 1)
+theme_override_font_sizes/normal_font_size = 16
+bbcode_enabled = true
+fit_content = true
+text = "…"
+
+[node name="Hint" type="Label" parent="Root/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.45, 0.4, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "E / Space — continue"
+horizontal_alignment = 2
