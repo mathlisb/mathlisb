@@ -41,6 +41,36 @@ func add_item(id: StringName, display_name: String, description: String, icon_pa
 	changed.emit()
 
 
+func has_item(id: StringName, qty: int = 1) -> bool:
+	for item in items:
+		if str(item["id"]) == String(id) and int(item["qty"]) >= qty:
+			return true
+	return false
+
+
+func count_item(id: StringName) -> int:
+	for item in items:
+		if str(item["id"]) == String(id):
+			return int(item["qty"])
+	return 0
+
+
+## Returns true if the qty was removed.
+func consume_item(id: StringName, qty: int = 1) -> bool:
+	for i in items.size():
+		var item: Dictionary = items[i]
+		if str(item["id"]) != String(id):
+			continue
+		if int(item["qty"]) < qty:
+			return false
+		item["qty"] = int(item["qty"]) - qty
+		if int(item["qty"]) <= 0:
+			items.remove_at(i)
+		changed.emit()
+		return true
+	return false
+
+
 func toggle() -> void:
 	if GameState.in_dialogue or GameState.paused:
 		return

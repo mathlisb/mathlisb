@@ -19,7 +19,7 @@ func _ready() -> void:
 	for area in [_ron, _hermione, _hat]:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
-	_hint.text = "WASD · E · Sort first · Hermione · north corridors"
+	_hint.text = "WASD · E · Sort · Hermione · Charms/Defense/Potions"
 	_refresh_objective()
 	_refresh_status()
 	GameState.flags_changed.connect(_refresh_status)
@@ -69,8 +69,12 @@ func _build_floor() -> void:
 func _refresh_objective() -> void:
 	if not GameState.is_sorted():
 		_objective.text = "Next: Sorting Hat ceremony (house lock)"
+	elif GameState.trapdoor_ready and GameState.undercroft_tonic_ready:
+		_objective.text = "Next: undercroft later · classes as needed"
+	elif GameState.trapdoor_ready and not GameState.potions_lesson_done:
+		_objective.text = "Next: Potions (SE) for undercroft tonic · or classes"
 	elif GameState.trapdoor_ready:
-		_objective.text = "Next: Charms east · Defense west · undercroft later"
+		_objective.text = "Next: Charms · Defense · Potions · undercroft later"
 	elif GameState.fluffy_teased:
 		_objective.text = "Next: trapdoor under Fluffy (north corridor)"
 	elif GameState.forbidden_tease_done:
@@ -80,7 +84,7 @@ func _refresh_objective() -> void:
 	elif GameState.visited_corridor:
 		_objective.text = "Next: Alohomora on the sealed third-floor door"
 	else:
-		_objective.text = "Next: north corridors · Alohomora on the seal"
+		_objective.text = "Next: north corridors · classes · Potions SE"
 
 
 func _refresh_status() -> void:

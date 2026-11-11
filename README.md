@@ -18,6 +18,7 @@ Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Black Lake / Ex
   → Forbidden Corridor (Fluffy → trapdoor flag for undercroft)
   → Charms Classroom (Incendio)
   → Defense Classroom (Protego / Immobulus + dummy)
+  → Potions Classroom (inventory brew → undercroft tonic)
 ```
 
 GBC plot beat map: [`docs/gbc-plot-beat-map.md`](docs/gbc-plot-beat-map.md).  
@@ -39,6 +40,9 @@ Great Hall **east** → Charms. Talk to Flitwick (unlocks Incendio), cast **5+J*
 
 ### Defense lesson
 Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobulus). Use **6** Protego to block dummy lunges, **7** Immobulus to freeze, Flipendo/Incendio to finish. Saves with the rest.
+
+### Potions lesson
+Great Hall **southeast** → Potions. Talk to Snape, take asphodel + wormwood from shelves (**I** satchel), **Lumos** at the cauldron, then bottle the Herbology bridge tonic (`undercroft_tonic_ready`). No new spells.
 
 ### Save location on Mac
 With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  

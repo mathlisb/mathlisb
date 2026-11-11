@@ -60,6 +60,7 @@ No vanity spells: if it is on the bar, it opens, lights, lifts, shoves, kindles,
 3. **Corridors** — sealed latch: inspect hints “locked”; cast Alohomora to set `forbidden_tease_done` and reveal Fluffy → trapdoor stub.
 4. **Charms** — Flitwick unlocks **Incendio** (slot 5); candle still completes the lesson.
 5. **Defense** — professor unlocks **Protego** (6) + **Immobulus** (7); dummy bout unchanged in spirit.
+6. **Potions** — inventory craft only (asphodel + wormwood + **Lumos** at cauldron). No new spells; sets `undercroft_tonic_ready`.
 
 ---
 
