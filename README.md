@@ -10,56 +10,40 @@ game/
 
 Open **`game/project.godot`** in Godot 4.3+.
 
-## Year One story flow (current)
+## Year One demo flow
 
 ```
-Main Menu → Privet Drive → Diagon Alley → Hogwarts (Great Hall stub)
+Main Menu → Privet Drive → Diagon Alley → Hogwarts Great Hall → Charms Classroom
 ```
 
-| Room | What to do |
-|------|------------|
-| **Privet Drive** | Read the letter (choice → house lean) · talk to Hagrid (choice) · garden gate unlocks Diagon Alley |
-| **Diagon Alley** | Shopkeep + spells · after talking, north door → Hogwarts · south returns to Privet |
-| **Hogwarts** | Talk to Ron / Hermione (trust flags) · Sorting Hat whispers house lean · door back to Diagon |
-
-### Controls
-
-| Action | Keys |
-|--------|------|
-| Move | WASD / arrows |
-| Talk / continue / enter door | **E** / Space |
-| Dialogue choices | Click a reply (or focus + Enter) |
+| Feature | How |
+|---------|-----|
+| Move / talk / doors | WASD · **E** |
 | Satchel | **I** |
-| Spells | **1** Lumos · **2** Leviosa · **3** Flipendo · **J** / LMB cast |
+| Spells | **1–3** starters · **4** Incendio (after Charms) · **J** cast |
+| **Save / Load** | **Esc** pause → Save / Load · Main Menu **Continue / Load** |
+| Save file | `user://hp_remaster_slot0.json` (Godot user data dir on Mac) |
 
-Light RPG flags live in `GameState` (house affinity, Ron/Hermione trust, story visited flags).
+### Charms lesson
+From the Great Hall, take the east portal to **Charms**. Talk to Flitwick (unlocks Incendio), then cast Incendio (**4** + **J**) at the practice candle to complete the lesson. Progress (including unlocked spells) is included in Save.
 
-Pixel art under `assets/pixel/` is **original** (deep greens, candle gold, night blues — no ROM tiles).
-
-### Art on Mac
-Nearest filter on sprites. If blurry: texture Import → Filter Off → Reimport. Sheets: `player_sheet.png`, `shopkeep_sheet.png`.
+### Save location on Mac
+With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  
+Exported `.app`: `~/Library/Application Support/Harry Potter Remaster/` (or the bundle name variant). File: `hp_remaster_slot0.json`.
 
 ## How Matheus runs it on a Mac
 
-1. Install [Godot 4.3+](https://godotengine.org/download) (standard / non-.NET).
-2. Open **`game/project.godot`**.
-3. Press **F5** → **Begin Year One** (Privet Drive).
-4. Optional export: Manage Export Templates → **Project → Export…** → **macOS** → `build/macos/HarryPotterRemaster.app`.
+1. Install [Godot 4.3+](https://godotengine.org/download).
+2. Open `game/project.godot` → **F5** → **Begin Year One**.
+3. **Esc** anytime in a room to save. Use **Continue / Load** on the title screen later.
+4. Export: Manage Export Templates → **Project → Export…** → **macOS**.
 
 ```bash
 godot --path game
 godot --path game --export-release "macOS" build/macos/HarryPotterRemaster.app
 ```
 
-## Repo layout
-
-```
-game/
-  scenes/     # main_menu, privet_drive, diagon_alley, hogwarts_arrival, portals…
-  autoload/   # Inventory, SpellBook, GameState (story + RPG flags)
-  assets/pixel/
-  ui/         # dialogue (with choices), satchel, spell HUD
-```
+Pixel art in `assets/pixel/` is original (deep greens, candle gold, night blues — no ROM tiles).
 
 ## Constraints
 

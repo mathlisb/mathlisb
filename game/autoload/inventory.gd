@@ -1,5 +1,5 @@
 extends Node
-## Simple inventory stub for the Diagon Alley vertical slice.
+## Simple inventory stub — serializable for SaveManager.
 
 signal changed
 signal opened
@@ -7,13 +7,19 @@ signal closed
 
 const MAX_SLOTS := 8
 
-## Each entry: { id, name, description, icon, qty }
 var items: Array[Dictionary] = []
 var is_open: bool = false
+var _booted: bool = false
 
 
 func _ready() -> void:
-	# Starting kit for the slice — original placeholders, not ROM data.
+	if items.is_empty():
+		_give_starter_kit()
+	_booted = true
+
+
+func _give_starter_kit() -> void:
+	items.clear()
 	add_item(&"wand", "Holly Wand", "Eleven inches. Swishy. Placeholder.", "res://assets/pixel/item_wand.png", 1)
 	add_item(&"letter", "Hogwarts Letter", "You're accepted — Diagon Alley awaits.", "res://assets/pixel/item_letter.png", 1)
 	add_item(&"knuts", "Knuts", "A modest pouch for shop windows.", "res://assets/pixel/item_knuts.png", 17)
@@ -21,12 +27,12 @@ func _ready() -> void:
 
 func add_item(id: StringName, display_name: String, description: String, icon_path: String, qty: int = 1) -> void:
 	for item in items:
-		if item["id"] == id:
+		if item["id"] == id or str(item["id"]) == String(id):
 			item["qty"] = int(item["qty"]) + qty
 			changed.emit()
 			return
 	items.append({
-		"id": id,
+		"id": String(id),
 		"name": display_name,
 		"description": description,
 		"icon": icon_path,
@@ -36,7 +42,7 @@ func add_item(id: StringName, display_name: String, description: String, icon_pa
 
 
 func toggle() -> void:
-	if GameState.in_dialogue:
+	if GameState.in_dialogue or GameState.paused:
 		return
 	is_open = not is_open
 	if is_open:
@@ -50,3 +56,26 @@ func close() -> void:
 		return
 	is_open = false
 	closed.emit()
+
+
+func to_save_dict() -> Dictionary:
+	return {"items": items.duplicate(true)}
+
+
+func from_save_dict(data: Dictionary) -> void:
+	items.clear()
+	var raw: Array = data.get("items", [])
+	for entry in raw:
+		if typeof(entry) != TYPE_DICTIONARY:
+			continue
+		items.append({
+			"id": str(entry.get("id", "")),
+			"name": str(entry.get("name", "")),
+			"description": str(entry.get("description", "")),
+			"icon": str(entry.get("icon", "")),
+			"qty": int(entry.get("qty", 1)),
+		})
+	if items.is_empty():
+		_give_starter_kit()
+	is_open = false
+	changed.emit()

@@ -8,6 +8,12 @@ extends CanvasLayer
 func _ready() -> void:
 	SpellBook.spell_selected.connect(_refresh)
 	SpellBook.spell_cast.connect(_on_cast)
+	SpellBook.unlocks_changed.connect(_on_unlocks)
+	_build_slots()
+	_refresh(SpellBook.selected)
+
+
+func _on_unlocks() -> void:
 	_build_slots()
 	_refresh(SpellBook.selected)
 
@@ -15,11 +21,10 @@ func _ready() -> void:
 func _build_slots() -> void:
 	for child in _slots.get_children():
 		child.queue_free()
-	var order: Array[StringName] = [&"lumos", &"leviosa", &"flipendo"]
-	for i in order.size():
-		var id: StringName = order[i]
+	for id in SpellBook.unlocked_ordered():
+		var slot := int(SpellBook.ALL_SPELLS[id]["slot"])
 		var chip := Label.new()
-		chip.text = "%d %s" % [i + 1, SpellBook.display_name(id)]
+		chip.text = "%d %s" % [slot, SpellBook.display_name(id)]
 		chip.add_theme_font_size_override("font_size", 12)
 		chip.add_theme_color_override("font_color", SpellBook.spell_color(id).darkened(0.1))
 		chip.add_theme_color_override("font_outline_color", Color(0.059, 0.102, 0.18, 1))

@@ -116,12 +116,28 @@ theme_override_colors/font_hover_color = Color(0.11, 0.1, 0.08, 1)
 theme_override_font_sizes/font_size = 18
 text = "Begin Year One"
 
+[node name="LoadButton" type="Button" parent="Center/Panel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 40)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Continue / Load"
+
 [node name="QuitButton" type="Button" parent="Center/Panel/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(280, 40)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "Quit"
+
+[node name="SaveHint" type="Label" parent="Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.78, 0.72, 1)
+theme_override_font_sizes/font_size = 11
+text = "No save yet — Esc in-game to save"
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Footnote" type="Label" parent="."]
 layout_mode = 1
