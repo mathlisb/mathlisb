@@ -43,8 +43,8 @@ Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobu
 ### Potions lesson
 Great Hall **southeast** → Potions. Talk to Snape, take asphodel + wormwood from shelves (**I** satchel), **Lumos** at the cauldron, then bottle the Herbology bridge tonic (`undercroft_tonic_ready`). No new spells.
 
-### Undercroft (trapdoor stub)
-Corridor trapdoor when `trapdoor_ready` (tonic optional). Chambers: flying keys (**Leviosa/Flipendo**) → chess shove (**Flipendo**) → logic bottles (**Lumos** or bridge tonic) → **Mirror of Erised** tease (`mirror_reached`). No final boss yet.
+### Undercroft + Year One climax
+Corridor trapdoor when `trapdoor_ready` (tonic optional). Chambers: keys → chess → bottles → **Mirror** → **Quirrell/Stone** (`Protego` / `Immobulus` / `Flipendo`). Victory sets `stone_secured` + `year_one_complete`; epilogue + Hall portal. No Patronum.
 
 ### Save location on Mac
 With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  

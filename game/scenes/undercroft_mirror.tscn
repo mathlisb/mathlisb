@@ -91,6 +91,13 @@ position = Vector2(0, 160)
 target_scene = "res://scenes/hogwarts_corridor.tscn"
 prompt_text = "E — Back to corridor"
 
+[node name="ToClimax" parent="." instance=ExtResource("6_portal")]
+visible = false
+position = Vector2(0, -170)
+target_scene = "res://scenes/undercroft_climax.tscn"
+prompt_text = "E — Beyond the Mirror"
+require_flag = &"mirror_reached"
+
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 90)
 
