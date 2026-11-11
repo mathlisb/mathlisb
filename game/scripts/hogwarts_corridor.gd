@@ -1,5 +1,5 @@
 extends Node2D
-## Forbidden Corridor — sealed door → Fluffy tease → trapdoor stub (undercroft later).
+## Forbidden Corridor — Alohomora opens the seal → Fluffy tease → trapdoor stub.
 
 @onready var _camera: Camera2D = $Player/Camera2D
 @onready var _door: Area2D = $Interactables/ForbiddenDoor
@@ -9,6 +9,7 @@ extends Node2D
 @onready var _trapdoor: Area2D = $Interactables/Trapdoor
 @onready var _hint: Label = $HUDHints/Hint
 @onready var _objective: Label = $HUDHints/Objective
+@onready var _ambient: CanvasModulate = $CanvasModulate
 
 
 func _ready() -> void:
@@ -20,7 +21,9 @@ func _ready() -> void:
 	for area in [_door, _prefect, _fluffy, _harp, _trapdoor]:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
-	_hint.text = "WASD · E · Lumos · Esc save"
+	SpellBook.spell_cast.connect(_on_spell_cast)
+	_apply_lumos_light()
+	_hint.text = "WASD · E · 1 Lumos · 4 Alohomora on the seal"
 	_refresh_visibility()
 	_refresh_objective()
 	GameState.flags_changed.connect(_refresh_objective)
@@ -30,8 +33,8 @@ func _ready() -> void:
 		GameState.start_dialogue(
 			"Narrator",
 			PackedStringArray([
-				"Third-floor corridor. Rope, a seal — and something breathing beyond it.",
-				"Next: open the sealed door. Fluffy waits. The trapdoor is for later undercroft work.",
+				"Third-floor corridor. Rope, a lock — and something breathing beyond it.",
+				"Next: Alohomora (4) on the sealed latch. Fluffy waits past it. The trapdoor is for later undercroft work.",
 			])
 		)
 	elif not GameState.fluffy_teased:
@@ -66,7 +69,6 @@ func _build_floor() -> void:
 
 
 func _refresh_visibility() -> void:
-	# Past the seal: Fluffy, harp, trapdoor become the active set.
 	var past := GameState.forbidden_tease_done
 	_fluffy.visible = past
 	_harp.visible = past
@@ -74,10 +76,9 @@ func _refresh_visibility() -> void:
 	_fluffy.monitoring = past
 	_harp.monitoring = past
 	_trapdoor.monitoring = past
-	# Sealed door stays for re-read, but prompt updates
 	var door_prompt: Label = _door.get_node_or_null("Prompt")
 	if door_prompt:
-		door_prompt.text = "E — Corridor seal" if past else "E — Sealed door"
+		door_prompt.text = "E — Corridor seal" if past else "E — Sealed latch"
 
 
 func _refresh_objective() -> void:
@@ -87,8 +88,14 @@ func _refresh_objective() -> void:
 		_objective.text = "Next: inspect the trapdoor under Fluffy"
 	elif GameState.forbidden_tease_done:
 		_objective.text = "Next: Fluffy · harp · then the trapdoor"
+	elif SpellBook.is_unlocked(&"alohomora"):
+		_objective.text = "Next: cast Alohomora (4) on the sealed door"
 	else:
-		_objective.text = "Next: open the sealed third-floor door"
+		_objective.text = "Next: learn Alohomora from Hermione, then return"
+
+
+func _apply_lumos_light() -> void:
+	_ambient.color = Color(0.85, 0.88, 0.72, 1.0) if GameState.lumos_active else Color(0.42, 0.48, 0.46, 1.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -120,17 +127,52 @@ func _inspect_door() -> void:
 		GameState.start_dialogue(
 			"Corridor Seal",
 			PackedStringArray([
-				"The rope hangs loose now. Beyond: three heads, a harp, and a hatch that shouldn't be here.",
+				"The latch answered Alohomora. Beyond: three heads, a harp, and a hatch that shouldn't be here.",
 			])
 		)
 		return
+	if SpellBook.is_unlocked(&"alohomora"):
+		GameState.start_dialogue(
+			"Forbidden Corridor",
+			PackedStringArray([
+				"Rope, latch, and a lock that looks almost polite.",
+				"Select Alohomora (4) and cast (J) toward the seal.",
+			])
+		)
+	else:
+		GameState.start_dialogue(
+			"Forbidden Corridor",
+			PackedStringArray([
+				"Locked. A simple charm would open this — the kind Hermione knows.",
+				"Learn Alohomora in the Great Hall, then return.",
+			])
+		)
+
+
+func _on_spell_cast(spell_id: StringName, origin: Vector2, facing: Vector2) -> void:
+	if spell_id == &"lumos":
+		_apply_lumos_light()
+		return
+	if spell_id != &"alohomora" or GameState.forbidden_tease_done:
+		return
+	var door_pos: Vector2 = _door.global_position
+	if origin.distance_to(door_pos) > 110.0:
+		return
+	var to_door := (door_pos - origin).normalized()
+	if facing.length() > 0.1 and to_door.dot(facing) < 0.1:
+		return
+	_complete_tease()
+
+
+func _complete_tease() -> void:
 	GameState.forbidden_tease_done = true
+	GameState.flags_changed.emit()
 	_refresh_visibility()
 	_refresh_objective()
 	GameState.start_dialogue(
 		"Forbidden Corridor",
 		PackedStringArray([
-			"The seal yields. Warm breath. A growl in three throats at once.",
+			"Alohomora. The latch softens. Warm breath. A growl in three throats at once.",
 			"Hagrid's… dog. Fluffy. And under one massive paw — a trapdoor.",
 			"Next: ease Fluffy, then mark the hatch. The undercroft comes later.",
 		]),
@@ -213,7 +255,7 @@ func _inspect_trapdoor() -> void:
 func _talk_prefect() -> void:
 	var lines := PackedStringArray([
 		"First years don't wander the third floor. Dumbledore's orders — and mine.",
-		"Great Hall is south. Charms and Defense are off the Hall.",
+		"If that latch yields to Alohomora, read the warning — then mind Fluffy. Great Hall is south.",
 	])
 	if GameState.trapdoor_ready:
 		lines = PackedStringArray([
