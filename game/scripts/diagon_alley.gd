@@ -17,7 +17,7 @@ func _ready() -> void:
 	_shopkeep.body_entered.connect(_on_shopkeep_entered)
 	_shopkeep.body_exited.connect(_on_shopkeep_exited)
 	SpellBook.spell_cast.connect(_on_spell_cast)
-	_hint.text = "WASD · E talk · I · 1–3/J · North door → Hogwarts"
+	_hint.text = "WASD · E talk · I · 1–3/J · Next: King's Cross (north)"
 
 
 func _build_cobbles() -> void:
@@ -62,15 +62,15 @@ func _start_shop_dialogue() -> void:
 		_shopkeep.set_prompt_visible(false)
 	GameState.talked_to_shopkeep = true
 	var lines := PackedStringArray([
-		"Welcome to Diagon Alley — cobbles still warm from the day's last deliveries.",
-		"Ollivanders is just ahead. Try Lumos, Leviosa, Flipendo — then the north door takes you on toward Hogwarts.",
-		"Press I for your satchel. Knuts and your letter are already packed.",
+		"Diagon Alley — last stop before the station. Gear first, then King's Cross.",
+		"Practice Lumos, Leviosa, Flipendo here. When you're ready, the north door leads to Platform 9¾.",
+		"Satchel's packed (I). Don't skip the barrier at the station — straight through between nine and ten.",
 	])
 	if GameState.crate_puzzle_done:
-		lines.append("Ah — floating crates already? You'll fit right in at Hogwarts.")
+		lines.append("Floating crates already? Keep that wand-hand steady on the Express.")
 	var choices: Array = [
-		{"text": "I'll practice my spells first.", "effects": {"ravenclaw": 1}},
-		{"text": "Point me toward adventure.", "effects": {"gryffindor": 1}},
+		{"text": "I'll practice, then head for the station.", "effects": {"ravenclaw": 1}},
+		{"text": "Point me at Platform 9¾.", "effects": {"gryffindor": 1}},
 		{"text": "Any kindness for a first-timer?", "effects": {"hufflepuff": 1, "hermione_trust": 1}},
 	]
 	GameState.start_dialogue("Shopkeep", lines, choices, "How do you answer the shopkeep?")

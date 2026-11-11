@@ -17,15 +17,13 @@ func _ready() -> void:
 	_letter.body_exited.connect(func(b): _set_prompt(_letter, b, false))
 	_hagrid.body_entered.connect(func(b): _set_prompt(_hagrid, b, true))
 	_hagrid.body_exited.connect(func(b): _set_prompt(_hagrid, b, false))
-	_hint.text = "WASD · E talk / pick up · door to Diagon Alley"
-	# Opening line once
+	_hint.text = "WASD · E · Next: letter → Hagrid → Diagon Alley"
 	await get_tree().create_timer(0.35).timeout
 	if not GameState.left_privet:
 		GameState.start_dialogue(
 			"Narrator",
 			PackedStringArray([
-				"Number four, Privet Drive. The letter on the mat refuses to stay unread.",
-				"Aunt Petunia's voice echoes from the kitchen — but something larger waits by the garden gate.",
+				"Number four, Privet Drive. Read the letter. Talk to Hagrid. Then the garden gate opens Diagon Alley.",
 			])
 		)
 
@@ -92,13 +90,13 @@ func _talk_hagrid() -> void:
 	GameState.start_dialogue(
 		"Hagrid",
 		PackedStringArray([
-			"Ah, Harry. Yeh weren't meant ter grow up without knowin' who yeh are.",
-			"Diagon Alley's waitin' — wand, books, an' a bit o' wonder before Hogwarts.",
-			"When yer ready, take the garden gate. I'll meet yeh in the Alley.",
+			"Yeh weren't meant ter grow up without knowin' who yeh are.",
+			"Next stop: Diagon Alley for yer wand an' kit — then King's Cross, Platform 9¾, then Hogwarts.",
+			"Garden gate's open when yer ready.",
 		]),
 		[
-			{"text": "I'm ready. Let's go.", "effects": {"gryffindor": 1}},
-			{"text": "First tell me everything — slowly.", "effects": {"ravenclaw": 1, "hermione_trust": 1}},
+			{"text": "I'm ready. Diagon Alley.", "effects": {"gryffindor": 1}},
+			{"text": "Walk me through the whole route first.", "effects": {"ravenclaw": 1, "hermione_trust": 1}},
 			{"text": "As long as we stick together.", "effects": {"hufflepuff": 1, "ron_trust": 1}},
 		],
 		"What do you say to Hagrid?"

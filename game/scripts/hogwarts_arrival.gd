@@ -6,6 +6,7 @@ extends Node2D
 @onready var _hermione: Area2D = $Interactables/Hermione
 @onready var _hat: Area2D = $Interactables/SortingHat
 @onready var _hint: Label = $HUDHints/Hint
+@onready var _objective: Label = $HUDHints/Objective
 @onready var _status: Label = $HUDHints/Status
 
 
@@ -18,15 +19,17 @@ func _ready() -> void:
 	for area in [_ron, _hermione, _hat]:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
-	_hint.text = "WASD · E · Charms east · Defense west · Esc save"
+	_hint.text = "WASD · E · Corridors north · Charms E · Defense W"
+	_refresh_objective()
 	_refresh_status()
 	GameState.flags_changed.connect(_refresh_status)
+	GameState.flags_changed.connect(_refresh_objective)
 	await get_tree().create_timer(0.3).timeout
 	GameState.start_dialogue(
 		"Narrator",
 		PackedStringArray([
-			"The castle rises out of the night like a promise kept.",
-			"Torches, long tables, and two faces already looking for a friend.",
+			"Hogwarts. Meet Ron and Hermione, hear the Sorting Hat — then the north door opens the castle corridors.",
+			"Charms is east. Defense is west. The sealed third-floor door waits up the corridor path.",
 		])
 	)
 
@@ -51,6 +54,15 @@ func _build_floor() -> void:
 			spr.scale = Vector2(2, 2)
 			spr.z_index = -2
 			root.add_child(spr)
+
+
+func _refresh_objective() -> void:
+	if GameState.forbidden_tease_done:
+		_objective.text = "Next: Charms east · Defense west · classes"
+	elif GameState.visited_corridor:
+		_objective.text = "Next: sealed third-floor door (north corridor)"
+	else:
+		_objective.text = "Next: friends · Hat · north corridors"
 
 
 func _refresh_status() -> void:
@@ -83,12 +95,12 @@ func _talk_ron() -> void:
 	GameState.start_dialogue(
 		"Ron",
 		PackedStringArray([
-			"Blimey — first years always look a bit lost. I'm Ron.",
-			"If the food's half as good as Mum says, we'll be fine.",
+			"I'm Ron. First years get lost — stick to the Hall until you know the stairs.",
+			"Heard there's a corridor upstairs that's out of bounds. We're not going near it. Yet.",
 		]),
 		[
-			{"text": "Stick with me — we'll figure it out together.", "effects": {"ron_trust": 2, "gryffindor": 1}},
-			{"text": "Any tips for not embarrassing ourselves?", "effects": {"ron_trust": 1, "hufflepuff": 1}},
+			{"text": "Stick with me — we'll figure it out.", "effects": {"ron_trust": 2, "gryffindor": 1}},
+			{"text": "Any tips before classes?", "effects": {"ron_trust": 1, "hufflepuff": 1}},
 			{"text": "I want the best seat near the feast.", "effects": {"slytherin": 1}},
 		],
 		"How do you answer Ron?"
@@ -99,13 +111,13 @@ func _talk_hermione() -> void:
 	GameState.start_dialogue(
 		"Hermione",
 		PackedStringArray([
-			"I've read Hogwarts: A History twice. The staircases move — keep your wits about you.",
-			"I'm Hermione. If you need the library, I already mapped a route.",
+			"Hermione. Charms east, Defense west — and don't poke the third-floor seal without a plan.",
+			"I've mapped a route. Classes first; forbidden corridors later.",
 		]),
 		[
 			{"text": "I'd love to study with you.", "effects": {"hermione_trust": 2, "ravenclaw": 1}},
-			{"text": "Maybe after we explore a bit?", "effects": {"hermione_trust": 1, "gryffindor": 1}},
-			{"text": "Books can wait — tonight's for meeting people.", "effects": {"hufflepuff": 1}},
+			{"text": "After we scout the corridors?", "effects": {"hermione_trust": 1, "gryffindor": 1}},
+			{"text": "Tonight's for meeting people.", "effects": {"hufflepuff": 1}},
 		],
 		"How do you answer Hermione?"
 	)
@@ -117,9 +129,8 @@ func _talk_hat() -> void:
 	GameState.start_dialogue(
 		"Sorting Hat",
 		PackedStringArray([
-			"Hmm… difficult. Very difficult.",
-			"Not a full Sorting tonight — just a whisper of where you lean.",
-			"I sense… %s in you. The castle will remember." % String(lean).capitalize(),
+			"Not a full Sorting — a lean for now. Classes and choices will finish the work.",
+			"I sense… %s. North lies the corridor you shouldn't open yet." % String(lean).capitalize(),
 		])
 	)
 	_refresh_status()

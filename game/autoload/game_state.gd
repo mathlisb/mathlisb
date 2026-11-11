@@ -17,7 +17,11 @@ var crate_puzzle_done: bool = false
 var visited_privet: bool = false
 var left_privet: bool = false
 var visited_diagon: bool = false
+var reached_platform: bool = false
+var boarded_express: bool = false
 var reached_hogwarts: bool = false
+var visited_corridor: bool = false
+var forbidden_tease_done: bool = false
 var charms_lesson_done: bool = false
 var defense_lesson_done: bool = false
 var sorting_hint: String = ""
@@ -117,7 +121,11 @@ func to_save_dict() -> Dictionary:
 		"visited_privet": visited_privet,
 		"left_privet": left_privet,
 		"visited_diagon": visited_diagon,
+		"reached_platform": reached_platform,
+		"boarded_express": boarded_express,
 		"reached_hogwarts": reached_hogwarts,
+		"visited_corridor": visited_corridor,
+		"forbidden_tease_done": forbidden_tease_done,
 		"charms_lesson_done": charms_lesson_done,
 		"defense_lesson_done": defense_lesson_done,
 		"sorting_hint": sorting_hint,
@@ -134,7 +142,11 @@ func from_save_dict(data: Dictionary) -> void:
 	visited_privet = bool(data.get("visited_privet", false))
 	left_privet = bool(data.get("left_privet", false))
 	visited_diagon = bool(data.get("visited_diagon", false))
+	reached_platform = bool(data.get("reached_platform", false))
+	boarded_express = bool(data.get("boarded_express", false))
 	reached_hogwarts = bool(data.get("reached_hogwarts", false))
+	visited_corridor = bool(data.get("visited_corridor", false))
+	forbidden_tease_done = bool(data.get("forbidden_tease_done", false))
 	charms_lesson_done = bool(data.get("charms_lesson_done", false))
 	defense_lesson_done = bool(data.get("defense_lesson_done", false))
 	sorting_hint = str(data.get("sorting_hint", ""))
