@@ -20,21 +20,25 @@ Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Black Lake / Ex
   → Defense Classroom (Protego / Immobulus + dummy)
 ```
 
-GBC plot beat map: [`docs/gbc-plot-beat-map.md`](docs/gbc-plot-beat-map.md).
+GBC plot beat map: [`docs/gbc-plot-beat-map.md`](docs/gbc-plot-beat-map.md).  
+Year One spell toolkit: [`docs/year-one-spells.md`](docs/year-one-spells.md).
 
 | Feature | How |
 |---------|-----|
 | Move / talk / doors | WASD · **E** |
 | Satchel | **I** |
-| Spells | **1–3** starters · **4** Incendio · **5** Protego · **6** Immobulus · **J** cast |
+| Spells | **1–3** starters · **4** Alohomora · **5** Incendio · **6** Protego · **7** Immobulus · **J** cast |
 | **Save / Load** | **Esc** pause → Save / Load · Main Menu **Continue / Load** |
 | Save file | `user://hp_remaster_slot0.json` (Godot user data dir on Mac) |
 
+### Alohomora (Year One lock charm)
+Great Hall → talk to **Hermione** (unlocks Alohomora, slot **4**). North corridors → cast **4+J** on the sealed latch to finish the Forbidden tease.
+
 ### Charms lesson
-Great Hall **east** → Charms. Talk to Flitwick (unlocks Incendio), cast **4+J** on the candle.
+Great Hall **east** → Charms. Talk to Flitwick (unlocks Incendio), cast **5+J** on the candle.
 
 ### Defense lesson
-Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobulus). Use **5** Protego to block dummy lunges, **6** Immobulus to freeze, Flipendo/Incendio to finish. Saves with the rest.
+Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobulus). Use **6** Protego to block dummy lunges, **7** Immobulus to freeze, Flipendo/Incendio to finish. Saves with the rest.
 
 ### Save location on Mac
 With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  

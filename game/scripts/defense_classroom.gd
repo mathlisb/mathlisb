@@ -23,7 +23,7 @@ func _ready() -> void:
 	SpellBook.spell_cast.connect(_on_spell_cast)
 	GameState.dialogue_ended.connect(_on_dialogue_ended)
 	_shield.modulate.a = 0.0
-	_hint.text = "WASD · E talk · 5 Protego · 6 Immobulus · J cast · Esc save"
+	_hint.text = "WASD · E talk · 6 Protego · 7 Immobulus · J cast · Esc save"
 	_refresh_status()
 	await get_tree().create_timer(0.25).timeout
 	if GameState.defense_lesson_done:
@@ -95,7 +95,7 @@ func _talk_teacher() -> void:
 		GameState.start_dialogue(
 			"Defense Professor",
 			PackedStringArray([
-				"Protego (5) raises your shield. Immobulus (6) freezes the dummy.",
+				"Protego (6) raises your shield. Immobulus (7) freezes the dummy.",
 				"Flipendo or Incendio finishes the bout. Reset? Walk away and return later.",
 			])
 		)
@@ -107,7 +107,7 @@ func _talk_teacher() -> void:
 		"Defense Professor",
 		PackedStringArray([
 			"Protego! A shimmering wall — then Immobulus to pin the threat.",
-			"I'll place both charms on your wand. Clear the dummy to pass.",
+			"I'll place both on your wand — slots 6 and 7. Clear the dummy to pass.",
 		]),
 		[
 			{"text": "Teach me — I'll stand my ground.", "effects": {"gryffindor": 1}},
@@ -127,7 +127,7 @@ func _on_dialogue_ended() -> void:
 	got = SpellBook.unlock_spell(&"immobulus") or got
 	if got or SpellBook.is_unlocked(&"protego"):
 		_refresh_status()
-		_status.text = "Unlocked: Protego (5) · Immobulus (6) — defeat the dummy!"
+		_status.text = "Unlocked: Protego (6) · Immobulus (7) — defeat the dummy!"
 		if _dummy.has_method("reset_dummy"):
 			_dummy.reset_dummy()
 

@@ -2,7 +2,7 @@
 
 **Purpose:** Align the remaster’s Year One hubs with the GBC adventure’s major location order (design reference only — no ROM text/assets).  
 **Remaster engine:** Godot 4 2D · macOS-first.  
-**Updated:** 2026-11-11 (Express / Sorting lock / Fluffy–trapdoor chunk).
+**Updated:** 2026-11-11 (spell retune + Express / Sorting / Fluffy spine).
 
 ## Legend
 
@@ -26,7 +26,7 @@
 | 5 | **Great Hall / Sorting** | **In** `hogwarts_arrival.tscn` | Full ceremony **locks** `sorted_house` |
 | 6 | **Hogwarts corridors** | **In** `hogwarts_corridor.tscn` | Gated on `house_locked` |
 | 7 | **Classrooms** (Charms, Defense, …) | **In** Charms + Defense | Potions / Flying / History **Missing** |
-| 8 | **Forbidden / Third-floor corridor** | **In / Stub** seal → Fluffy → trapdoor | Flags undercroft; no dungeon dive yet |
+| 8 | **Forbidden / Third-floor corridor** | **In / Stub** Alohomora seal → Fluffy → trapdoor | Flags undercroft; no dungeon dive yet |
 | 9 | **Quidditch** | **Missing** | Optional per plan |
 | 10 | **Detention / Forbidden Forest** | **Missing** | Later phase |
 | 11 | **Under the trapdoor** (keys / chess / potions) | **Missing** | `trapdoor_ready` set; content later |
@@ -34,16 +34,16 @@
 
 ---
 
-## Playable spine (this chunk)
+## Playable spine
 
 ```
 Main Menu
   → Privet Drive
   → Diagon Alley
   → Platform 9¾
-  → Black Lake / Express arrival   ← NEW
-  → Hogwarts Great Hall            ← Sorting locks house
-  → Forbidden Corridor             ← Fluffy + trapdoor stub
+  → Black Lake / Express arrival
+  → Hogwarts Great Hall            ← Sorting locks house · Hermione → Alohomora
+  → Forbidden Corridor             ← Alohomora seal → Fluffy + trapdoor stub
   ↳ Charms / Defense
 ```
 
@@ -56,7 +56,7 @@ Main Menu
 | `boarded_express` | Run the 9¾ barrier | Platform → Lakeside |
 | `visited_express` / `lakeside_arrived` | Enter lakeside hub | Progress markers |
 | `house_locked` + `sorted_house` | Sorting Hat ceremony | Hall → Corridors |
-| `forbidden_tease_done` | Open sealed door | Reveals Fluffy / harp / trapdoor |
+| `forbidden_tease_done` | Cast **Alohomora** on sealed latch | Reveals Fluffy / harp / trapdoor |
 | `fluffy_teased` | Talk to Fluffy | Enables meaningful trapdoor |
 | `trapdoor_ready` | Inspect trapdoor | Undercroft flagged for later |
 
@@ -69,6 +69,10 @@ Main Menu
 ### Objective UX
 
 Hubs keep a short **Next:** line so the player always knows the next GBC-style station.
+
+### Spell toolkit (Year One)
+
+See [`year-one-spells.md`](./year-one-spells.md). Bar: Lumos · Leviosa · Flipendo · **Alohomora** (Hermione → corridor seal) · Incendio (Charms) · Protego / Immobulus (Defense). Patronum and late-series curses deferred.
 
 ---
 

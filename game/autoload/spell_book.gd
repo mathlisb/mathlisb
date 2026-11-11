@@ -1,57 +1,71 @@
 extends Node
-## Starter + mid-tier spells. Unlocks persist via SaveManager.
+## Year One spell toolkit. Every spell gates a puzzle or lesson beat.
+## See docs/year-one-spells.md
 
 signal spell_selected(spell_id: StringName)
 signal spell_cast(spell_id: StringName, origin: Vector2, facing: Vector2)
 signal unlocks_changed
 
+const SPELL_ORDER: Array[StringName] = [
+	&"lumos", &"leviosa", &"flipendo", &"alohomora", &"incendio", &"protego", &"immobulus",
+]
+
+const STARTER_UNLOCKS: Array[StringName] = [&"lumos", &"leviosa", &"flipendo"]
+
 const ALL_SPELLS := {
 	&"lumos": {
 		"display": "Lumos",
-		"hint": "Light the dark corners.",
+		"hint": "Light dark corners and corridors.",
 		"color": Color("fff0b4"),
 		"cooldown": 0.35,
 		"slot": 1,
 	},
 	&"leviosa": {
 		"display": "Wingardium Leviosa",
-		"hint": "Lift crates just enough.",
+		"hint": "Lift crates and light props.",
 		"color": Color("b4dcc8"),
 		"cooldown": 0.55,
 		"slot": 2,
 	},
 	&"flipendo": {
 		"display": "Flipendo",
-		"hint": "A firm shove.",
+		"hint": "A firm shove — crates and combat.",
 		"color": Color("c87850"),
 		"cooldown": 0.45,
 		"slot": 3,
 	},
+	&"alohomora": {
+		"display": "Alohomora",
+		"hint": "Open simple locks and seals.",
+		"color": Color("d4c078"),
+		"cooldown": 0.55,
+		"slot": 4,
+	},
 	&"incendio": {
 		"display": "Incendio",
-		"hint": "Kindle a careful flame — Charms mid-tier.",
+		"hint": "Kindle a careful flame — Charms.",
 		"color": Color("ff8a3d"),
 		"cooldown": 0.5,
-		"slot": 4,
+		"slot": 5,
 	},
 	&"protego": {
 		"display": "Protego",
-		"hint": "Raise a shield — Defense Against the Dark Arts.",
+		"hint": "Raise a basic shield — Defense.",
 		"color": Color("7ec8e8"),
 		"cooldown": 0.6,
-		"slot": 5,
+		"slot": 6,
 	},
 	&"immobulus": {
 		"display": "Immobulus",
-		"hint": "Freeze a foe mid-lunge for a breath.",
+		"hint": "Freeze a foe mid-lunge — Defense utility.",
 		"color": Color("a8dde8"),
 		"cooldown": 0.7,
-		"slot": 6,
+		"slot": 7,
 	},
 }
 
 var selected: StringName = &"lumos"
-var unlocked: Array[StringName] = [&"lumos", &"leviosa", &"flipendo"]
+var unlocked: Array[StringName] = STARTER_UNLOCKS.duplicate()
 var _cooldown_left: float = 0.0
 var protego_active: bool = false
 var protego_time: float = 0.0
@@ -68,7 +82,7 @@ func _process(delta: float) -> void:
 
 func unlocked_ordered() -> Array[StringName]:
 	var out: Array[StringName] = []
-	for id in [&"lumos", &"leviosa", &"flipendo", &"incendio", &"protego", &"immobulus"]:
+	for id in SPELL_ORDER:
 		if id in unlocked:
 			out.append(id)
 	return out
@@ -140,10 +154,11 @@ func from_save_dict(data: Dictionary) -> void:
 	var raw: Array = data.get("unlocked", ["lumos", "leviosa", "flipendo"])
 	for id in raw:
 		var sn := StringName(str(id))
+		# Drop deferred / unknown ids from older saves
 		if ALL_SPELLS.has(sn) and sn not in unlocked:
 			unlocked.append(sn)
 	if unlocked.is_empty():
-		unlocked = [&"lumos", &"leviosa", &"flipendo"]
+		unlocked = STARTER_UNLOCKS.duplicate()
 	var sel := StringName(str(data.get("selected", "lumos")))
 	selected = sel if is_unlocked(sel) else unlocked[0]
 	unlocks_changed.emit()

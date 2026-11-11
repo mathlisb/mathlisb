@@ -63,13 +63,13 @@ func _start_shop_dialogue() -> void:
 	GameState.talked_to_shopkeep = true
 	var lines := PackedStringArray([
 		"Diagon Alley — last stop before the station. Gear first, then King's Cross.",
-		"Practice Lumos, Leviosa, Flipendo here. When you're ready, the north door leads to Platform 9¾.",
-		"Satchel's packed (I). Don't skip the barrier at the station — straight through between nine and ten.",
+		"Year One starters on your bar: Lumos, Leviosa, Flipendo (1–3). Lift and shove the crates — every charm earns its keep.",
+		"North door → Platform 9¾. At Hogwarts you'll learn Alohomora, Incendio, then Defense.",
 	])
 	if GameState.crate_puzzle_done:
 		lines.append("Floating crates already? Keep that wand-hand steady on the Express.")
 	var choices: Array = [
-		{"text": "I'll practice, then head for the station.", "effects": {"ravenclaw": 1}},
+		{"text": "I'll practice 1–3, then the station.", "effects": {"ravenclaw": 1}},
 		{"text": "Point me at Platform 9¾.", "effects": {"gryffindor": 1}},
 		{"text": "Any kindness for a first-timer?", "effects": {"hufflepuff": 1, "hermione_trust": 1}},
 	]

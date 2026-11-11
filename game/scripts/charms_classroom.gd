@@ -26,7 +26,7 @@ func _ready() -> void:
 	SpellBook.spell_cast.connect(_on_spell_cast)
 	SpellBook.unlocks_changed.connect(_refresh_status)
 	GameState.dialogue_ended.connect(_on_dialogue_ended)
-	_hint.text = "WASD · E talk · 4 Incendio (after lesson) · Esc save"
+	_hint.text = "WASD · E talk · 5 Incendio (after lesson) · Esc save"
 	_refresh_status()
 	await get_tree().create_timer(0.25).timeout
 	if GameState.charms_lesson_done:
@@ -34,7 +34,7 @@ func _ready() -> void:
 		GameState.start_dialogue(
 			"Professor Flitwick",
 			PackedStringArray([
-				"Back again? Your Incendio is already on the spell bar — slot 4.",
+				"Back again? Your Incendio is already on the spell bar — slot 5.",
 				"A careful flame only, mind. Charms rewards precision.",
 			])
 		)
@@ -98,7 +98,7 @@ func _talk_flitwick() -> void:
 		GameState.start_dialogue(
 			"Professor Flitwick",
 			PackedStringArray([
-				"Excellent work. Incendio is yours — press 4, then J near a wick.",
+				"Excellent work. Incendio is yours — press 5, then J near a wick.",
 				"House points for careful casting. Off you go!",
 			])
 		)
@@ -108,7 +108,7 @@ func _talk_flitwick() -> void:
 		"Professor Flitwick",
 		PackedStringArray([
 			"Incendio! Swish toward the wick — not the curtains.",
-			"I'll place the charm on your wand. Light the candle to finish the lesson.",
+			"I'll place the charm on your wand — slot 5. Light the candle to finish the lesson.",
 		]),
 		[
 			{"text": "I'm ready — teach me Incendio.", "effects": {"ravenclaw": 1}},
@@ -125,7 +125,7 @@ func _on_dialogue_ended() -> void:
 	_awaiting_lesson_choice = false
 	if SpellBook.unlock_spell(&"incendio"):
 		_refresh_status()
-		_status.text = "Unlocked: Incendio (4) — light the candle!"
+		_status.text = "Unlocked: Incendio (5) — light the candle!"
 
 
 func _hint_candle() -> void:
@@ -134,7 +134,7 @@ func _hint_candle() -> void:
 	elif SpellBook.is_unlocked(&"incendio"):
 		GameState.start_dialogue(
 			"Practice Candle",
-			PackedStringArray(["Select Incendio (4) and cast (J) toward the candle."])
+			PackedStringArray(["Select Incendio (5) and cast (J) toward the candle."])
 		)
 	else:
 		GameState.start_dialogue(

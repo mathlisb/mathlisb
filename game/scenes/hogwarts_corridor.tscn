@@ -87,7 +87,7 @@ theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
 theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 11
-text = "E — Sealed door"
+text = "E — Sealed latch"
 horizontal_alignment = 1
 
 [node name="Prefect" type="Area2D" parent="Interactables"]
@@ -247,7 +247,7 @@ theme_override_colors/font_color = Color(0.7, 0.78, 0.72, 0.9)
 theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "WASD · E · I · 1–6 · J"
+text = "WASD · E · I · 1–7 · J"
 horizontal_alignment = 2
 
 [node name="Objective" type="Label" parent="HUDHints"]
