@@ -19,6 +19,7 @@ var left_privet: bool = false
 var visited_diagon: bool = false
 var reached_hogwarts: bool = false
 var charms_lesson_done: bool = false
+var defense_lesson_done: bool = false
 var sorting_hint: String = ""
 
 ## Light RPG
@@ -118,6 +119,7 @@ func to_save_dict() -> Dictionary:
 		"visited_diagon": visited_diagon,
 		"reached_hogwarts": reached_hogwarts,
 		"charms_lesson_done": charms_lesson_done,
+		"defense_lesson_done": defense_lesson_done,
 		"sorting_hint": sorting_hint,
 		"house_affinity": affinity,
 		"ron_trust": ron_trust,
@@ -134,6 +136,7 @@ func from_save_dict(data: Dictionary) -> void:
 	visited_diagon = bool(data.get("visited_diagon", false))
 	reached_hogwarts = bool(data.get("reached_hogwarts", false))
 	charms_lesson_done = bool(data.get("charms_lesson_done", false))
+	defense_lesson_done = bool(data.get("defense_lesson_done", false))
 	sorting_hint = str(data.get("sorting_hint", ""))
 	ron_trust = int(data.get("ron_trust", 0))
 	hermione_trust = int(data.get("hermione_trust", 0))

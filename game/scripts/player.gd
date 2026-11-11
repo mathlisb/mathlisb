@@ -77,6 +77,10 @@ func _physics_process(_delta: float) -> void:
 		SpellBook.select_by_slot(3)
 	elif Input.is_action_just_pressed("spell_incendio"):
 		SpellBook.select_by_slot(4)
+	elif Input.is_action_just_pressed("spell_protego"):
+		SpellBook.select_by_slot(5)
+	elif Input.is_action_just_pressed("spell_immobulus"):
+		SpellBook.select_by_slot(6)
 
 	if Input.is_action_just_pressed("cast_spell"):
 		_try_cast()

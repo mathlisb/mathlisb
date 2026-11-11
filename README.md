@@ -13,19 +13,24 @@ Open **`game/project.godot`** in Godot 4.3+.
 ## Year One demo flow
 
 ```
-Main Menu → Privet Drive → Diagon Alley → Hogwarts Great Hall → Charms Classroom
+Main Menu → Privet Drive → Diagon Alley → Hogwarts Great Hall
+  → Charms Classroom (Incendio)
+  → Defense Classroom (Protego / Immobulus + dummy)
 ```
 
 | Feature | How |
 |---------|-----|
 | Move / talk / doors | WASD · **E** |
 | Satchel | **I** |
-| Spells | **1–3** starters · **4** Incendio (after Charms) · **J** cast |
+| Spells | **1–3** starters · **4** Incendio · **5** Protego · **6** Immobulus · **J** cast |
 | **Save / Load** | **Esc** pause → Save / Load · Main Menu **Continue / Load** |
 | Save file | `user://hp_remaster_slot0.json` (Godot user data dir on Mac) |
 
 ### Charms lesson
-From the Great Hall, take the east portal to **Charms**. Talk to Flitwick (unlocks Incendio), then cast Incendio (**4** + **J**) at the practice candle to complete the lesson. Progress (including unlocked spells) is included in Save.
+Great Hall **east** → Charms. Talk to Flitwick (unlocks Incendio), cast **4+J** on the candle.
+
+### Defense lesson
+Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobulus). Use **5** Protego to block dummy lunges, **6** Immobulus to freeze, Flipendo/Incendio to finish. Saves with the rest.
 
 ### Save location on Mac
 With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  
