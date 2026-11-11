@@ -69,8 +69,10 @@ func _build_floor() -> void:
 func _refresh_objective() -> void:
 	if not GameState.is_sorted():
 		_objective.text = "Next: Sorting Hat ceremony (house lock)"
+	elif GameState.year_one_complete:
+		_objective.text = "Year One complete · Stone secured · explore freely"
 	elif GameState.mirror_reached:
-		_objective.text = "Mirror reached · classes · corridor revisit OK"
+		_objective.text = "Mirror reached · finish Quirrell vault undercroft"
 	elif GameState.trapdoor_ready and GameState.undercroft_tonic_ready:
 		_objective.text = "Next: corridor trapdoor → undercroft (tonic ready)"
 	elif GameState.trapdoor_ready and not GameState.potions_lesson_done:

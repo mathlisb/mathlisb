@@ -37,6 +37,9 @@ var keys_chamber_done: bool = false
 var chess_chamber_done: bool = false
 var undercroft_logic_done: bool = false
 var mirror_reached: bool = false
+var quirrell_defeated: bool = false
+var stone_secured: bool = false
+var year_one_complete: bool = false
 var sorting_hint: String = ""
 ## Empty until Sorting ceremony locks a house.
 var sorted_house: String = ""
@@ -189,6 +192,9 @@ func to_save_dict() -> Dictionary:
 		"chess_chamber_done": chess_chamber_done,
 		"undercroft_logic_done": undercroft_logic_done,
 		"mirror_reached": mirror_reached,
+		"quirrell_defeated": quirrell_defeated,
+		"stone_secured": stone_secured,
+		"year_one_complete": year_one_complete,
 		"sorting_hint": sorting_hint,
 		"sorted_house": sorted_house,
 		"house_locked": house_locked,
@@ -224,6 +230,9 @@ func from_save_dict(data: Dictionary) -> void:
 	chess_chamber_done = bool(data.get("chess_chamber_done", false))
 	undercroft_logic_done = bool(data.get("undercroft_logic_done", false))
 	mirror_reached = bool(data.get("mirror_reached", false))
+	quirrell_defeated = bool(data.get("quirrell_defeated", false))
+	stone_secured = bool(data.get("stone_secured", false))
+	year_one_complete = bool(data.get("year_one_complete", false))
 	sorting_hint = str(data.get("sorting_hint", ""))
 	sorted_house = str(data.get("sorted_house", ""))
 	house_locked = bool(data.get("house_locked", false))
