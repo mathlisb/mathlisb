@@ -126,9 +126,9 @@ position = Vector2(0, 160)
 target_scene = "res://scenes/diagon_alley.tscn"
 prompt_text = "E — Back to Diagon Alley"
 
-[node name="ToHogwarts" parent="." instance=ExtResource("6_portal")]
+[node name="ToExpress" parent="." instance=ExtResource("6_portal")]
 position = Vector2(0, -170)
-target_scene = "res://scenes/hogwarts_arrival.tscn"
+target_scene = "res://scenes/lakeside_arrival.tscn"
 prompt_text = "E — Hogwarts Express"
 require_flag = &"boarded_express"
 

@@ -13,8 +13,9 @@ Open **`game/project.godot`** in Godot 4.3+.
 ## Year One demo flow
 
 ```
-Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Hogwarts Great Hall
-  → Castle Corridors (Forbidden Corridor tease)
+Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Black Lake / Express
+  → Hogwarts Great Hall (Sorting locks house)
+  → Forbidden Corridor (Fluffy → trapdoor flag for undercroft)
   → Charms Classroom (Incendio)
   → Defense Classroom (Protego / Immobulus + dummy)
 ```

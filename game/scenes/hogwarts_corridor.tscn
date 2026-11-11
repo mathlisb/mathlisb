@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ccorridor001hp"]
+[gd_scene load_steps=15 format=3 uid="uid://ccorridor001hp"]
 
 [ext_resource type="Script" path="res://scripts/hogwarts_corridor.gd" id="1_room"]
 [ext_resource type="PackedScene" path="res://characters/player.tscn" id="2_player"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" path="res://assets/pixel/corridor_wall.png" id="7_wall"]
 [ext_resource type="Texture2D" path="res://assets/pixel/prop_forbidden_door.png" id="8_door"]
 [ext_resource type="Texture2D" path="res://assets/pixel/npc_defense.png" id="9_prefect"]
+[ext_resource type="Texture2D" path="res://assets/pixel/npc_fluffy.png" id="10_fluffy"]
+[ext_resource type="Texture2D" path="res://assets/pixel/prop_harp.png" id="11_harp"]
+[ext_resource type="Texture2D" path="res://assets/pixel/prop_trapdoor.png" id="12_trap"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(700, 24)
@@ -62,7 +65,7 @@ shape = SubResource("RectangleShape2D_wall_v")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="ForbiddenDoor" type="Area2D" parent="Interactables"]
-position = Vector2(0, -50)
+position = Vector2(-160, -40)
 collision_layer = 4
 collision_mask = 2
 
@@ -88,7 +91,7 @@ text = "E — Sealed door"
 horizontal_alignment = 1
 
 [node name="Prefect" type="Area2D" parent="Interactables"]
-position = Vector2(-120, 40)
+position = Vector2(-120, 70)
 collision_layer = 4
 collision_mask = 2
 
@@ -111,6 +114,90 @@ theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 11
 text = "E — Prefect"
+horizontal_alignment = 1
+
+[node name="Fluffy" type="Area2D" parent="Interactables"]
+visible = false
+position = Vector2(40, -30)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Fluffy"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/Fluffy"]
+texture_filter = 0
+scale = Vector2(2.6, 2.6)
+texture = ExtResource("10_fluffy")
+
+[node name="Prompt" type="Label" parent="Interactables/Fluffy"]
+visible = false
+offset_left = -48.0
+offset_top = -48.0
+offset_right = 48.0
+offset_bottom = -28.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Fluffy"
+horizontal_alignment = 1
+
+[node name="Harp" type="Area2D" parent="Interactables"]
+visible = false
+position = Vector2(140, 20)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Harp"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/Harp"]
+texture_filter = 0
+scale = Vector2(2.4, 2.4)
+texture = ExtResource("11_harp")
+
+[node name="Prompt" type="Label" parent="Interactables/Harp"]
+visible = false
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = -20.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Harp"
+horizontal_alignment = 1
+
+[node name="Trapdoor" type="Area2D" parent="Interactables"]
+visible = false
+position = Vector2(40, 50)
+collision_layer = 4
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Trapdoor"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/Trapdoor"]
+texture_filter = 0
+scale = Vector2(2.2, 2.2)
+texture = ExtResource("12_trap")
+
+[node name="Prompt" type="Label" parent="Interactables/Trapdoor"]
+visible = false
+offset_left = -56.0
+offset_top = -36.0
+offset_right = 56.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Trapdoor"
 horizontal_alignment = 1
 
 [node name="BackToHall" parent="." instance=ExtResource("6_portal")]
@@ -166,10 +253,10 @@ horizontal_alignment = 2
 [node name="Objective" type="Label" parent="HUDHints"]
 offset_left = 16.0
 offset_top = 48.0
-offset_right = 480.0
+offset_right = 500.0
 offset_bottom = 72.0
 theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.9)
 theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
 theme_override_constants/outline_size = 3
 theme_override_font_sizes/font_size = 12
-text = "Next: inspect the sealed door"
+text = "Next: open the sealed door"

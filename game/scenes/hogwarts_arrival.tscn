@@ -140,15 +140,16 @@ theme_override_font_sizes/font_size = 11
 text = "E — Sorting Hat"
 horizontal_alignment = 1
 
-[node name="BackToPlatform" parent="." instance=ExtResource("6_portal")]
+[node name="BackToLakeside" parent="." instance=ExtResource("6_portal")]
 position = Vector2(0, 160)
-target_scene = "res://scenes/platform_nine.tscn"
-prompt_text = "E — Platform 9¾"
+target_scene = "res://scenes/lakeside_arrival.tscn"
+prompt_text = "E — Black Lake"
 
 [node name="ToCorridor" parent="." instance=ExtResource("6_portal")]
 position = Vector2(0, -170)
 target_scene = "res://scenes/hogwarts_corridor.tscn"
 prompt_text = "E — Castle Corridors"
+require_flag = &"house_locked"
 
 [node name="ToCharms" parent="." instance=ExtResource("6_portal")]
 position = Vector2(200, -40)
