@@ -1,7 +1,6 @@
 extends CanvasLayer
-## Parchment inventory panel stub (I to toggle).
+## Pixel parchment satchel panel (I to toggle).
 
-@onready var _root: Control = $Root
 @onready var _panel: PanelContainer = %Panel
 @onready var _list: VBoxContainer = %ItemList
 @onready var _detail: RichTextLabel = %Detail
@@ -48,9 +47,16 @@ func _rebuild() -> void:
 	for i in Inventory.items.size():
 		var item: Dictionary = Inventory.items[i]
 		var row := Button.new()
-		row.text = "%s  ×%d" % [item["name"], item["qty"]]
+		row.text = "  %s  ×%d" % [item["name"], item["qty"]]
 		row.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		row.focus_mode = Control.FOCUS_ALL
+		row.add_theme_color_override("font_color", Color("1c1814"))
+		row.add_theme_color_override("font_hover_color", Color("1a3d2e"))
+		row.add_theme_color_override("font_pressed_color", Color("1a3d2e"))
+		if ResourceLoader.exists(str(item["icon"])):
+			row.icon = load(str(item["icon"]))
+			row.expand_icon = true
+			row.custom_minimum_size = Vector2(0, 36)
 		row.pressed.connect(_select.bind(item))
 		_list.add_child(row)
 		if i == 0:

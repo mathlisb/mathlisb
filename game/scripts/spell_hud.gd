@@ -21,7 +21,9 @@ func _build_slots() -> void:
 		var chip := Label.new()
 		chip.text = "%d %s" % [i + 1, SpellBook.display_name(id)]
 		chip.add_theme_font_size_override("font_size", 12)
-		chip.add_theme_color_override("font_color", SpellBook.spell_color(id).darkened(0.15))
+		chip.add_theme_color_override("font_color", SpellBook.spell_color(id).darkened(0.1))
+		chip.add_theme_color_override("font_outline_color", Color(0.059, 0.102, 0.18, 1))
+		chip.add_theme_constant_override("outline_size", 2)
 		chip.set_meta("spell_id", id)
 		_slots.add_child(chip)
 
@@ -29,9 +31,10 @@ func _build_slots() -> void:
 func _refresh(spell_id: StringName) -> void:
 	_label.text = "%s — J to cast" % SpellBook.display_name(spell_id)
 	_label.add_theme_color_override("font_color", SpellBook.spell_color(spell_id))
-	var path := "res://assets/placeholders/spell_%s.png" % String(spell_id)
+	var path := "res://assets/pixel/spell_%s.png" % String(spell_id)
 	if ResourceLoader.exists(path):
 		_icon.texture = load(path)
+		_icon.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	for chip in _slots.get_children():
 		var id: StringName = chip.get_meta("spell_id")
 		var selected := id == spell_id

@@ -11,7 +11,7 @@ config/description="Modern remake inspired by the GBC Philosopher's Stone advent
 config/version="0.2.0"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
-config/icon="res://assets/placeholders/player.png"
+config/icon="res://assets/pixel/player.png"
 
 [autoload]
 

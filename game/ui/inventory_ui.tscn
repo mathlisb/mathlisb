@@ -1,22 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://cinventory001"]
+[gd_scene load_steps=4 format=3 uid="uid://cinventory001"]
 
 [ext_resource type="Script" path="res://scripts/inventory_ui.gd" id="1_inv"]
+[ext_resource type="Texture2D" path="res://assets/pixel/ui_satchel.png" id="2_panel"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inv"]
-bg_color = Color(0.91, 0.863, 0.784, 0.97)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.831, 0.659, 0.294, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-content_margin_left = 16.0
-content_margin_top = 14.0
-content_margin_right = 16.0
-content_margin_bottom = 14.0
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_inv"]
+texture = ExtResource("2_panel")
+texture_margin_left = 14.0
+texture_margin_top = 16.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+content_margin_left = 20.0
+content_margin_top = 22.0
+content_margin_right = 20.0
+content_margin_bottom = 18.0
 
 [node name="InventoryUI" type="CanvasLayer"]
 layer = 25
@@ -37,7 +33,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.059, 0.102, 0.18, 0.55)
+color = Color(0.059, 0.102, 0.18, 0.58)
 
 [node name="Center" type="CenterContainer" parent="Root"]
 layout_mode = 1
@@ -49,9 +45,9 @@ grow_vertical = 2
 
 [node name="Panel" type="PanelContainer" parent="Root/Center"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(480, 320)
+custom_minimum_size = Vector2(520, 340)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_inv")
+theme_override_styles/panel = SubResource("StyleBoxTexture_inv")
 
 [node name="VBox" type="VBoxContainer" parent="Root/Center/Panel"]
 layout_mode = 2
@@ -59,14 +55,14 @@ theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="Root/Center/Panel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.102, 0.239, 0.18, 1)
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
 theme_override_font_sizes/font_size = 22
 text = "Satchel"
 horizontal_alignment = 1
 
 [node name="Hint" type="Label" parent="Root/Center/Panel/VBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.45, 0.4, 0.3, 1)
+theme_override_colors/font_color = Color(0.42, 0.38, 0.28, 1)
 theme_override_font_sizes/font_size = 12
 text = "I / Esc to close · starter kit for the Diagon Alley slice"
 horizontal_alignment = 1
@@ -78,7 +74,7 @@ theme_override_constants/separation = 14
 
 [node name="ItemList" type="VBoxContainer" parent="Root/Center/Panel/VBox/Body"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(210, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 6
@@ -88,7 +84,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_colors/default_color = Color(0.11, 0.094, 0.078, 1)
+theme_override_colors/default_color = Color(0.14, 0.12, 0.1, 1)
 bbcode_enabled = true
 fit_content = false
 scroll_active = true
