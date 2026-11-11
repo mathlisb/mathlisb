@@ -1,11 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdiagonalley01"]
+[gd_scene load_steps=13 format=3 uid="uid://cdiagonalley01"]
 
 [ext_resource type="Script" path="res://scripts/diagon_alley.gd" id="1_room"]
 [ext_resource type="PackedScene" path="res://characters/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://ui/dialogue_ui.tscn" id="3_dlg"]
 [ext_resource type="PackedScene" path="res://ui/spell_hud.tscn" id="4_hud"]
-[ext_resource type="Texture2D" path="res://assets/placeholders/floor_tile.png" id="5_floor"]
-[ext_resource type="Texture2D" path="res://assets/placeholders/wall_shop.png" id="6_wall"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/spellable_prop.tscn" id="6_prop"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/floor_tile.png" id="7_floor"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/wall_shop.png" id="8_wall"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/npc_shopkeep.png" id="9_npc"]
+[ext_resource type="Texture2D" path="res://assets/placeholders/barrel.png" id="10_barrel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
 size = Vector2(640, 24)
@@ -14,118 +18,127 @@ size = Vector2(640, 24)
 size = Vector2(24, 400)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
-size = Vector2(28, 28)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_crate"]
-size = Vector2(20, 20)
+size = Vector2(36, 36)
 
 [node name="DiagonAlley" type="Node2D"]
 script = ExtResource("1_room")
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.72, 0.78, 0.92, 1)
+color = Color(0.62, 0.7, 0.88, 1)
 
 [node name="Floor" type="Node2D" parent="."]
 
 [node name="FloorTint" type="Polygon2D" parent="Floor"]
-z_index = -2
-color = Color(0.118, 0.188, 0.157, 1)
+z_index = -3
+color = Color(0.1, 0.165, 0.145, 1)
 polygon = PackedVector2Array(-320, -200, 320, -200, 320, 200, -320, 200)
 
+[node name="NightSky" type="Polygon2D" parent="Floor"]
+z_index = -4
+color = Color(0.059, 0.102, 0.18, 1)
+polygon = PackedVector2Array(-400, -280, 400, -280, 400, -120, -400, -120)
+
 [node name="Tiles" type="Node2D" parent="Floor"]
-z_index = -1
-modulate = Color(0.85, 0.95, 0.88, 0.55)
+z_index = -2
 
 [node name="TileA" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(-96, -32)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(-128, -16)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
 
 [node name="TileB" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(0, -32)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(0, -16)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
 
 [node name="TileC" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(96, -32)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(128, -16)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
 
 [node name="TileD" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(-96, 64)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(-128, 96)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
 
 [node name="TileE" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(0, 64)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(0, 96)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
 
 [node name="TileF" type="Sprite2D" parent="Floor/Tiles"]
 texture_filter = 0
-position = Vector2(96, 64)
-scale = Vector2(3, 3)
-texture = ExtResource("5_floor")
+position = Vector2(128, 96)
+scale = Vector2(4, 4)
+texture = ExtResource("7_floor")
+
+[node name="StreetGlow" type="Polygon2D" parent="Floor"]
+z_index = -1
+color = Color(0.831, 0.659, 0.294, 0.1)
+polygon = PackedVector2Array(-260, -90, 260, -90, 220, 60, -220, 60)
 
 [node name="Shops" type="Node2D" parent="."]
 
 [node name="ShopLeft" type="Sprite2D" parent="Shops"]
 texture_filter = 0
-position = Vector2(-180, -120)
-scale = Vector2(4, 3)
-texture = ExtResource("6_wall")
+position = Vector2(-180, -128)
+scale = Vector2(2.8, 2.5)
+texture = ExtResource("8_wall")
 
 [node name="ShopMid" type="Sprite2D" parent="Shops"]
 texture_filter = 0
-position = Vector2(0, -128)
-scale = Vector2(4.5, 3.2)
-texture = ExtResource("6_wall")
+position = Vector2(0, -136)
+scale = Vector2(3.2, 2.8)
+texture = ExtResource("8_wall")
 
 [node name="ShopRight" type="Sprite2D" parent="Shops"]
 texture_filter = 0
-position = Vector2(180, -120)
-scale = Vector2(4, 3)
-texture = ExtResource("6_wall")
+position = Vector2(180, -128)
+scale = Vector2(2.8, 2.5)
+texture = ExtResource("8_wall")
 
 [node name="SignLeft" type="Label" parent="Shops"]
-offset_left = -220.0
-offset_top = -168.0
-offset_right = -140.0
-offset_bottom = -148.0
+offset_left = -230.0
+offset_top = -188.0
+offset_right = -130.0
+offset_bottom = -168.0
 theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 1)
 theme_override_font_sizes/font_size = 11
 text = "Flourish & Blotts"
 horizontal_alignment = 1
 
 [node name="SignMid" type="Label" parent="Shops"]
-offset_left = -48.0
-offset_top = -176.0
-offset_right = 48.0
-offset_bottom = -156.0
-theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 1)
-theme_override_font_sizes/font_size = 12
+offset_left = -50.0
+offset_top = -200.0
+offset_right = 50.0
+offset_bottom = -178.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_font_sizes/font_size = 13
 text = "Ollivanders"
 horizontal_alignment = 1
 
 [node name="SignRight" type="Label" parent="Shops"]
-offset_left = 140.0
-offset_top = -168.0
-offset_right = 220.0
-offset_bottom = -148.0
+offset_left = 130.0
+offset_top = -188.0
+offset_right = 230.0
+offset_bottom = -168.0
 theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 1)
 theme_override_font_sizes/font_size = 11
 text = "Eeylops"
 horizontal_alignment = 1
 
-[node name="StreetGlow" type="Polygon2D" parent="Shops"]
-z_index = -1
-color = Color(0.831, 0.659, 0.294, 0.12)
-polygon = PackedVector2Array(-260, -80, 260, -80, 200, 40, -200, 40)
+[node name="LampL" type="Polygon2D" parent="Shops"]
+color = Color(0.831, 0.659, 0.294, 0.35)
+polygon = PackedVector2Array(-210, -70, -150, -70, -160, -40, -200, -40)
+
+[node name="LampR" type="Polygon2D" parent="Shops"]
+color = Color(0.831, 0.659, 0.294, 0.35)
+polygon = PackedVector2Array(150, -70, 210, -70, 200, -40, 160, -40)
 
 [node name="Walls" type="StaticBody2D" parent="."]
 collision_layer = 1
@@ -150,7 +163,7 @@ shape = SubResource("RectangleShape2D_wall_v")
 [node name="Interactables" type="Node2D" parent="."]
 
 [node name="Shopkeep" type="Area2D" parent="Interactables"]
-position = Vector2(24, -72)
+position = Vector2(28, -64)
 collision_layer = 4
 collision_mask = 2
 monitoring = true
@@ -158,37 +171,42 @@ monitoring = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Shopkeep"]
 shape = SubResource("RectangleShape2D_npc")
 
-[node name="Sprite" type="Polygon2D" parent="Interactables/Shopkeep"]
-color = Color(0.831, 0.659, 0.294, 1)
-polygon = PackedVector2Array(-8, 10, -8, -6, -4, -12, 4, -12, 8, -6, 8, 10)
+[node name="Sprite" type="Sprite2D" parent="Interactables/Shopkeep"]
+texture_filter = 0
+scale = Vector2(1.35, 1.35)
+texture = ExtResource("9_npc")
 
 [node name="Prompt" type="Label" parent="Interactables/Shopkeep"]
-offset_left = -40.0
-offset_top = -28.0
-offset_right = 40.0
-offset_bottom = -12.0
+offset_left = -48.0
+offset_top = -36.0
+offset_right = 48.0
+offset_bottom = -18.0
 theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 11
 text = "E — Talk"
 horizontal_alignment = 1
 
-[node name="Crate" type="StaticBody2D" parent="Interactables"]
-position = Vector2(120, 48)
-collision_layer = 1
+[node name="Crate" parent="Interactables" instance=ExtResource("6_prop")]
+position = Vector2(132, 56)
+prop_name = "Delivery Crate"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Crate"]
-shape = SubResource("RectangleShape2D_crate")
+[node name="Barrel" parent="Interactables" instance=ExtResource("6_prop")]
+position = Vector2(-140, 40)
+prop_name = "Barrel"
+can_lift = true
+can_shove = true
 
-[node name="Box" type="Polygon2D" parent="Interactables/Crate"]
-color = Color(0.42, 0.28, 0.16, 1)
-polygon = PackedVector2Array(-10, 10, -10, -10, 10, -10, 10, 10)
+[node name="Sprite2D" parent="Interactables/Barrel"]
+texture = ExtResource("10_barrel")
 
 [node name="Player" parent="." instance=ExtResource("2_player")]
-position = Vector2(0, 80)
+position = Vector2(0, 96)
 
 [node name="DialogueUI" parent="." instance=ExtResource("3_dlg")]
 
 [node name="SpellHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("5_inv")]
 
 [node name="RoomTitle" type="CanvasLayer" parent="."]
 layer = 5
@@ -197,12 +215,29 @@ layer = 5
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -120.0
-offset_top = 18.0
-offset_right = 120.0
-offset_bottom = 42.0
+offset_left = -140.0
+offset_top = 16.0
+offset_right = 140.0
+offset_bottom = 44.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.95)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "Diagon Alley"
 horizontal_alignment = 1
+
+[node name="HUDHints" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Hint" type="Label" parent="HUDHints"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -420.0
+offset_top = 16.0
+offset_right = -20.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(0.7, 0.78, 0.72, 0.9)
+theme_override_font_sizes/font_size = 12
+text = "WASD · E · I · 1–3 · J"
+horizontal_alignment = 2
