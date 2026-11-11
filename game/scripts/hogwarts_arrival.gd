@@ -18,7 +18,7 @@ func _ready() -> void:
 	for area in [_ron, _hermione, _hat]:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
-	_hint.text = "WASD · E talk · Charms door east · Esc save"
+	_hint.text = "WASD · E · Charms east · Defense west · Esc save"
 	_refresh_status()
 	GameState.flags_changed.connect(_refresh_status)
 	await get_tree().create_timer(0.3).timeout

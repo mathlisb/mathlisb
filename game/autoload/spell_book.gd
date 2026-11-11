@@ -34,21 +34,41 @@ const ALL_SPELLS := {
 		"cooldown": 0.5,
 		"slot": 4,
 	},
+	&"protego": {
+		"display": "Protego",
+		"hint": "Raise a shield — Defense Against the Dark Arts.",
+		"color": Color("7ec8e8"),
+		"cooldown": 0.6,
+		"slot": 5,
+	},
+	&"immobulus": {
+		"display": "Immobulus",
+		"hint": "Freeze a foe mid-lunge for a breath.",
+		"color": Color("a8dde8"),
+		"cooldown": 0.7,
+		"slot": 6,
+	},
 }
 
 var selected: StringName = &"lumos"
 var unlocked: Array[StringName] = [&"lumos", &"leviosa", &"flipendo"]
 var _cooldown_left: float = 0.0
+var protego_active: bool = false
+var protego_time: float = 0.0
 
 
 func _process(delta: float) -> void:
 	if _cooldown_left > 0.0:
 		_cooldown_left = maxf(0.0, _cooldown_left - delta)
+	if protego_active:
+		protego_time = maxf(0.0, protego_time - delta)
+		if protego_time <= 0.0:
+			protego_active = false
 
 
 func unlocked_ordered() -> Array[StringName]:
 	var out: Array[StringName] = []
-	for id in [&"lumos", &"leviosa", &"flipendo", &"incendio"]:
+	for id in [&"lumos", &"leviosa", &"flipendo", &"incendio", &"protego", &"immobulus"]:
 		if id in unlocked:
 			out.append(id)
 	return out
@@ -90,6 +110,9 @@ func cast(origin: Vector2, facing: Vector2) -> bool:
 		return false
 	var data: Dictionary = ALL_SPELLS[selected]
 	_cooldown_left = float(data["cooldown"])
+	if selected == &"protego":
+		protego_active = true
+		protego_time = 1.6
 	spell_cast.emit(selected, origin, facing.normalized())
 	return true
 
