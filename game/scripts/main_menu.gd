@@ -19,7 +19,7 @@ func _ready() -> void:
 
 
 func _on_start() -> void:
-	get_tree().change_scene_to_file("res://scenes/diagon_alley.tscn")
+	get_tree().change_scene_to_file("res://scenes/privet_drive.tscn")
 
 
 func _on_quit() -> void:

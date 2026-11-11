@@ -10,38 +10,43 @@ game/
 
 Open **`game/project.godot`** in Godot 4.3+.
 
-## Diagon Alley vertical slice (current)
+## Year One story flow (current)
 
-Playable loop on macOS via the editor (or exported `.app`):
+```
+Main Menu → Privet Drive → Diagon Alley → Hogwarts (Great Hall stub)
+```
 
-| Feature | How |
-|---------|-----|
-| Move | WASD / arrow keys |
-| Talk | Walk to shopkeep near Ollivanders · **E** / Space |
-| Dialogue | **E** / Space advances lines |
-| Inventory | **I** opens satchel (wand, letter, knuts) · Esc / I closes |
-| Spells | **1** Lumos · **2** Leviosa · **3** Flipendo · **J** or LMB cast |
-| Feedback | Lumos brightens the street + wand glow; Leviosa lifts crate/barrel; Flipendo shoves them |
+| Room | What to do |
+|------|------------|
+| **Privet Drive** | Read the letter (choice → house lean) · talk to Hagrid (choice) · garden gate unlocks Diagon Alley |
+| **Diagon Alley** | Shopkeep + spells · after talking, north door → Hogwarts · south returns to Privet |
+| **Hogwarts** | Talk to Ron / Hermione (trust flags) · Sorting Hat whispers house lean · door back to Diagon |
 
-Scenes: `scenes/main_menu.tscn` → `scenes/diagon_alley.tscn`.
+### Controls
 
-Pixel art under `assets/pixel/` is **original** (deep greens, candle gold, night blues — no ROM tiles). Legacy stubs remain in `assets/placeholders/` unused by the slice.
+| Action | Keys |
+|--------|------|
+| Move | WASD / arrows |
+| Talk / continue / enter door | **E** / Space |
+| Dialogue choices | Click a reply (or focus + Enter) |
+| Satchel | **I** |
+| Spells | **1** Lumos · **2** Leviosa · **3** Flipendo · **J** / LMB cast |
+
+Light RPG flags live in `GameState` (house affinity, Ron/Hermione trust, story visited flags).
+
+Pixel art under `assets/pixel/` is **original** (deep greens, candle gold, night blues — no ROM tiles).
 
 ### Art on Mac
-Godot imports PNGs with **Nearest** filter (set on sprites). If new sheets look blurry: select the texture → Import → Filter Off → Reimport. Player / shopkeep sheets are sliced in script from `player_sheet.png` / `shopkeep_sheet.png` (32×32 frames).
+Nearest filter on sprites. If blurry: texture Import → Filter Off → Reimport. Sheets: `player_sheet.png`, `shopkeep_sheet.png`.
 
 ## How Matheus runs it on a Mac
 
-1. Install [Godot 4.3+](https://godotengine.org/download) (standard / non-.NET is fine).
-2. Clone this repo and open **`game/project.godot`** (Project Manager → Import, or drag `game/`).
-3. Press **F5**. Click **Enter Diagon Alley**.
-4. Optional export: **Editor → Manage Export Templates** → download matching templates → **Project → Export…** → preset **macOS** → export to `build/macos/HarryPotterRemaster.app`.
-   - Bundle id: `com.mathlisb.harrypotterremaster`
-   - Architecture: `universal`
-   - First unsigned launch: right-click the `.app` → Open.
+1. Install [Godot 4.3+](https://godotengine.org/download) (standard / non-.NET).
+2. Open **`game/project.godot`**.
+3. Press **F5** → **Begin Year One** (Privet Drive).
+4. Optional export: Manage Export Templates → **Project → Export…** → **macOS** → `build/macos/HarryPotterRemaster.app`.
 
 ```bash
-# From repo root, if `godot` is on PATH:
 godot --path game
 godot --path game --export-release "macOS" build/macos/HarryPotterRemaster.app
 ```
@@ -50,16 +55,10 @@ godot --path game --export-release "macOS" build/macos/HarryPotterRemaster.app
 
 ```
 game/
-  project.godot
-  export_presets.cfg
-  scenes/          # main_menu, diagon_alley, spell_fx, spellable_prop
-  characters/      # player
-  ui/              # dialogue, spell HUD, inventory
-  scripts/
-  autoload/        # Inventory, SpellBook, GameState
-  assets/placeholders/
-  theme/
-  tools/
+  scenes/     # main_menu, privet_drive, diagon_alley, hogwarts_arrival, portals…
+  autoload/   # Inventory, SpellBook, GameState (story + RPG flags)
+  assets/pixel/
+  ui/         # dialogue (with choices), satchel, spell HUD
 ```
 
 ## Constraints
