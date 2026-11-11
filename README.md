@@ -15,10 +15,9 @@ Open **`game/project.godot`** in Godot 4.3+.
 ```
 Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Black Lake / Express
   → Hogwarts Great Hall (Sorting locks house)
-  → Forbidden Corridor (Fluffy → trapdoor flag for undercroft)
-  → Charms Classroom (Incendio)
-  → Defense Classroom (Protego / Immobulus + dummy)
-  → Potions Classroom (inventory brew → undercroft tonic)
+  → Forbidden Corridor (Fluffy → trapdoor → undercroft)
+  → Undercroft stub (keys → chess → bottles → Mirror of Erised)
+  → Charms / Defense / Potions (bridge tonic soft-helps undercroft)
 ```
 
 GBC plot beat map: [`docs/gbc-plot-beat-map.md`](docs/gbc-plot-beat-map.md).  
@@ -43,6 +42,9 @@ Great Hall **west** → Defense. Talk to the professor (unlocks Protego + Immobu
 
 ### Potions lesson
 Great Hall **southeast** → Potions. Talk to Snape, take asphodel + wormwood from shelves (**I** satchel), **Lumos** at the cauldron, then bottle the Herbology bridge tonic (`undercroft_tonic_ready`). No new spells.
+
+### Undercroft (trapdoor stub)
+Corridor trapdoor when `trapdoor_ready` (tonic optional). Chambers: flying keys (**Leviosa/Flipendo**) → chess shove (**Flipendo**) → logic bottles (**Lumos** or bridge tonic) → **Mirror of Erised** tease (`mirror_reached`). No final boss yet.
 
 ### Save location on Mac
 With the editor: `~/Library/Application Support/Godot/app_userdata/Harry Potter Remaster/`  

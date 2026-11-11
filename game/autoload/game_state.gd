@@ -32,6 +32,11 @@ var potions_lesson_started: bool = false
 var potions_lesson_done: bool = false
 ## Modest undercroft-prep tonic brewed in Potions (Year One craft).
 var undercroft_tonic_ready: bool = false
+var undercroft_entered: bool = false
+var keys_chamber_done: bool = false
+var chess_chamber_done: bool = false
+var undercroft_logic_done: bool = false
+var mirror_reached: bool = false
 var sorting_hint: String = ""
 ## Empty until Sorting ceremony locks a house.
 var sorted_house: String = ""
@@ -179,6 +184,11 @@ func to_save_dict() -> Dictionary:
 		"potions_lesson_started": potions_lesson_started,
 		"potions_lesson_done": potions_lesson_done,
 		"undercroft_tonic_ready": undercroft_tonic_ready,
+		"undercroft_entered": undercroft_entered,
+		"keys_chamber_done": keys_chamber_done,
+		"chess_chamber_done": chess_chamber_done,
+		"undercroft_logic_done": undercroft_logic_done,
+		"mirror_reached": mirror_reached,
 		"sorting_hint": sorting_hint,
 		"sorted_house": sorted_house,
 		"house_locked": house_locked,
@@ -209,6 +219,11 @@ func from_save_dict(data: Dictionary) -> void:
 	potions_lesson_started = bool(data.get("potions_lesson_started", false))
 	potions_lesson_done = bool(data.get("potions_lesson_done", false))
 	undercroft_tonic_ready = bool(data.get("undercroft_tonic_ready", false))
+	undercroft_entered = bool(data.get("undercroft_entered", false))
+	keys_chamber_done = bool(data.get("keys_chamber_done", false))
+	chess_chamber_done = bool(data.get("chess_chamber_done", false))
+	undercroft_logic_done = bool(data.get("undercroft_logic_done", false))
+	mirror_reached = bool(data.get("mirror_reached", false))
 	sorting_hint = str(data.get("sorting_hint", ""))
 	sorted_house = str(data.get("sorted_house", ""))
 	house_locked = bool(data.get("house_locked", false))

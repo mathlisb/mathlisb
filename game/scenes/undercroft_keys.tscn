@@ -1,0 +1,175 @@
+[gd_scene load_steps=11 format=3 uid="uid://cunderkeys001"]
+
+[ext_resource type="Script" path="res://scripts/undercroft_keys.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://ui/dialogue_ui.tscn" id="3_dlg"]
+[ext_resource type="PackedScene" path="res://ui/spell_hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/scene_portal.tscn" id="6_portal"]
+[ext_resource type="Texture2D" path="res://assets/pixel/undercroft_wall.png" id="7_wall"]
+[ext_resource type="Texture2D" path="res://assets/pixel/prop_flying_key.png" id="8_key"]
+[ext_resource type="Texture2D" path="res://assets/pixel/portal_door.png" id="9_door"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(620, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 400)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
+size = Vector2(40, 40)
+
+[node name="UndercroftKeys" type="Node2D"]
+script = ExtResource("1_room")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.38, 0.4, 0.48, 1)
+
+[node name="Floor" type="Node2D" parent="."]
+
+[node name="Tint" type="Polygon2D" parent="Floor"]
+z_index = -4
+color = Color(0.05, 0.06, 0.08, 1)
+polygon = PackedVector2Array(-340, -220, 340, -220, 340, 220, -340, 220)
+
+[node name="Tiles" type="Node2D" parent="Floor"]
+
+[node name="WallBackdrop" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(0, -130)
+scale = Vector2(2.8, 2.4)
+texture = ExtResource("7_wall")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 1
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -190)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 190)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-300, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(300, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="FlyingKey" type="Area2D" parent="Interactables"]
+position = Vector2(0, -20)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/FlyingKey"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/FlyingKey"]
+texture_filter = 0
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("8_key")
+
+[node name="Prompt" type="Label" parent="Interactables/FlyingKey"]
+visible = false
+offset_left = -48.0
+offset_top = -36.0
+offset_right = 48.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Key"
+horizontal_alignment = 1
+
+[node name="KeyedDoor" type="Area2D" parent="Interactables"]
+position = Vector2(0, -150)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/KeyedDoor"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/KeyedDoor"]
+texture_filter = 0
+scale = Vector2(2, 2)
+texture = ExtResource("9_door")
+
+[node name="Prompt" type="Label" parent="Interactables/KeyedDoor"]
+visible = false
+offset_left = -56.0
+offset_top = -36.0
+offset_right = 56.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Keyed door"
+horizontal_alignment = 1
+
+[node name="BackUp" parent="." instance=ExtResource("6_portal")]
+position = Vector2(0, 160)
+target_scene = "res://scenes/hogwarts_corridor.tscn"
+prompt_text = "E — Back up trapdoor"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 90)
+
+[node name="DialogueUI" parent="." instance=ExtResource("3_dlg")]
+
+[node name="SpellHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("5_inv")]
+
+[node name="RoomTitle" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Label" type="Label" parent="RoomTitle"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 14.0
+offset_right = 200.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.95)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Undercroft — Flying Keys"
+horizontal_alignment = 1
+
+[node name="HUDHints" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Hint" type="Label" parent="HUDHints"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -420.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.7, 0.78, 0.72, 0.9)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "WASD · 2/3 · J · E"
+horizontal_alignment = 2
+
+[node name="Objective" type="Label" parent="HUDHints"]
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 500.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.9)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "Next: settle a key"

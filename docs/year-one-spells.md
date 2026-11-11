@@ -61,6 +61,7 @@ No vanity spells: if it is on the bar, it opens, lights, lifts, shoves, kindles,
 4. **Charms** — Flitwick unlocks **Incendio** (slot 5); candle still completes the lesson.
 5. **Defense** — professor unlocks **Protego** (6) + **Immobulus** (7); dummy bout unchanged in spirit.
 6. **Potions** — inventory craft only (asphodel + wormwood + **Lumos** at cauldron). No new spells; sets `undercroft_tonic_ready`.
+7. **Undercroft** — Leviosa/Flipendo keys · Flipendo chess · Lumos (or tonic) bottles · Mirror look. No new spells.
 
 ---
 

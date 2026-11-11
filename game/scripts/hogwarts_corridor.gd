@@ -11,6 +11,8 @@ extends Node2D
 @onready var _objective: Label = $HUDHints/Objective
 @onready var _ambient: CanvasModulate = $CanvasModulate
 
+var _offer_descent_after: bool = false
+
 
 func _ready() -> void:
 	GameState.visited_corridor = true
@@ -22,8 +24,9 @@ func _ready() -> void:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
 	SpellBook.spell_cast.connect(_on_spell_cast)
+	GameState.dialogue_ended.connect(_on_dialogue_ended)
 	_apply_lumos_light()
-	_hint.text = "WASD · E · 1 Lumos · 4 Alohomora on the seal"
+	_hint.text = "WASD · E · 1 Lumos · 4 Alohomora · trapdoor when ready"
 	_refresh_visibility()
 	_refresh_objective()
 	GameState.flags_changed.connect(_refresh_objective)
@@ -82,8 +85,13 @@ func _refresh_visibility() -> void:
 
 
 func _refresh_objective() -> void:
-	if GameState.trapdoor_ready:
-		_objective.text = "Next: undercroft later · return to Hall for classes"
+	if GameState.mirror_reached:
+		_objective.text = "Mirror reached · Hall / classes · trapdoor revisit OK"
+	elif GameState.trapdoor_ready:
+		if GameState.undercroft_tonic_ready:
+			_objective.text = "Next: E trapdoor → undercroft (tonic ready)"
+		else:
+			_objective.text = "Next: E trapdoor → undercroft (tonic optional via Potions)"
 	elif GameState.fluffy_teased:
 		_objective.text = "Next: inspect the trapdoor under Fluffy"
 	elif GameState.forbidden_tease_done:
@@ -237,18 +245,33 @@ func _inspect_trapdoor() -> void:
 		return
 	GameState.trapdoor_ready = true
 	_refresh_objective()
+	if GameState.mirror_reached:
+		GameState.start_dialogue(
+			"Trapdoor",
+			PackedStringArray([
+				"The shaft still drops to keys, chess, bottles, and the Mirror.",
+				"Enter again? E once more when this dialogue ends — or use the hatch prompt.",
+			])
+		)
+		_offer_descent_after = true
+		return
+	var lines := PackedStringArray([
+		"The hatch lifts. Cold air. Keys, a chess aisle, bottles, and a Mirror wait below.",
+	])
+	if GameState.undercroft_tonic_ready:
+		lines.append("Bridge tonic ready — undercroft prep complete. Descent is open.")
+	else:
+		lines.append("No tonic yet — Potions can still help, but the shaft will take you either way.")
+	_offer_descent_after = true
 	GameState.start_dialogue(
 		"Trapdoor",
-		PackedStringArray([
-			"The hatch lifts a finger's width. Cold air. A shaft into dark — keys, puzzles, and worse wait below.",
-			"You've marked the way. The undercroft is flagged for later. Don't drop in tonight.",
-		]),
+		lines,
 		[
-			{"text": "Close it. We'll return prepared.", "effects": {"ravenclaw": 1, "hermione_trust": 1}},
-			{"text": "One look — then back to the Hall.", "effects": {"gryffindor": 1}},
-			{"text": "Tell Ron and Hermione what we found.", "effects": {"hufflepuff": 1, "ron_trust": 1}},
+			{"text": "Climb down.", "effects": {"gryffindor": 1}},
+			{"text": "Check the satchel once more, then down.", "effects": {"ravenclaw": 1}},
+			{"text": "Wish Ron and Hermione were here — then down.", "effects": {"hufflepuff": 1}},
 		],
-		"How do you leave the hatch?"
+		"Enter the undercroft?"
 	)
 
 
@@ -257,7 +280,11 @@ func _talk_prefect() -> void:
 		"First years don't wander the third floor. Dumbledore's orders — and mine.",
 		"If that latch yields to Alohomora, read the warning — then mind Fluffy. Great Hall is south.",
 	])
-	if GameState.trapdoor_ready:
+	if GameState.mirror_reached:
+		lines = PackedStringArray([
+			"You came back pale. I don't want to know. Hall. Now.",
+		])
+	elif GameState.trapdoor_ready:
 		lines = PackedStringArray([
 			"You look like you've seen something you shouldn't. Keep it quiet — and keep walking south.",
 		])
@@ -275,3 +302,11 @@ func _talk_prefect() -> void:
 		],
 		"What do you say to the prefect?"
 	)
+
+
+func _on_dialogue_ended() -> void:
+	if not _offer_descent_after:
+		return
+	_offer_descent_after = false
+	if GameState.trapdoor_ready:
+		GameState.go_to_scene("res://scenes/undercroft_keys.tscn")
