@@ -2,7 +2,7 @@
 
 **Purpose:** Align the remaster’s Year One hubs with the GBC adventure’s major location order (design reference only — no ROM text/assets).  
 **Remaster engine:** Godot 4 2D · macOS-first.  
-**Updated:** 2026-11-11 (spell retune + Express / Sorting / Fluffy spine).
+**Updated:** 2026-11-11 (undercroft stub: keys / chess / bottles / Mirror).
 
 ## Legend
 
@@ -25,12 +25,12 @@
 | 4 | **Hogwarts Express / lakeside arrival** | **In** `lakeside_arrival.tscn` | Carriage + boats; no long travel sim |
 | 5 | **Great Hall / Sorting** | **In** `hogwarts_arrival.tscn` | Full ceremony **locks** `sorted_house` |
 | 6 | **Hogwarts corridors** | **In** `hogwarts_corridor.tscn` | Gated on `house_locked` |
-| 7 | **Classrooms** (Charms, Defense, Potions, …) | **In** Charms + Defense + **Potions stub** | Flying / History still **Missing** |
-| 8 | **Forbidden / Third-floor corridor** | **In / Stub** Alohomora seal → Fluffy → trapdoor | Flags undercroft; no dungeon dive yet |
+| 7 | **Classrooms** (Charms, Defense, Potions, …) | **In** Charms + Defense + Potions stub | Flying / History still **Missing** |
+| 8 | **Forbidden / Third-floor corridor** | **In / Stub** Alohomora → Fluffy → trapdoor | Entry to undercroft |
 | 9 | **Quidditch** | **Missing** | Optional per plan |
 | 10 | **Detention / Forbidden Forest** | **Missing** | Later phase |
-| 11 | **Under the trapdoor** (keys / chess / potions) | **Missing** | `trapdoor_ready` set; content later |
-| 12 | **Mirror / climax** | **Missing** | Phase 3 |
+| 11 | **Under the trapdoor** (keys / chess / potions) | **In / Stub** three chambers | No full dungeon combat |
+| 12 | **Mirror / climax** | **Stub** `undercroft_mirror.tscn` | Tease only — no Quirrell/Stone fight |
 
 ---
 
@@ -38,14 +38,23 @@
 
 ```
 Main Menu
-  → Privet Drive
-  → Diagon Alley
-  → Platform 9¾
-  → Black Lake / Express arrival
-  → Hogwarts Great Hall            ← Sorting locks house · Hermione → Alohomora
-  → Forbidden Corridor             ← Alohomora seal → Fluffy + trapdoor stub
-  ↳ Charms / Defense / Potions (bridge tonic → undercroft_tonic_ready)
+  → Privet → Diagon → Platform 9¾ → Lakeside
+  → Great Hall (Sorting · Alohomora · classes)
+  → Forbidden Corridor (seal → Fluffy → trapdoor)
+  → Undercroft: Keys → Chess → Logic bottles → Mirror
+  ↳ Charms / Defense / Potions (tonic soft-helps bottles)
 ```
+
+### Undercroft chamber gates (Year One spells only)
+
+| Chamber | Tool | Flag |
+|---------|------|------|
+| Flying keys | Leviosa / Flipendo | `keys_chamber_done` |
+| Chess aisle | Flipendo (Leviosa OK) | `chess_chamber_done` |
+| Logic bottles | Lumos + safe brew **or** bridge tonic | `undercroft_logic_done` |
+| Mirror of Erised | Look (E) | `mirror_reached` |
+
+Soft gate: `trapdoor_ready` required to enter; `undercroft_tonic_ready` is optional prep / bottle shortcut.
 
 ### Gate flags (`GameState`)
 
@@ -58,29 +67,21 @@ Main Menu
 | `house_locked` + `sorted_house` | Sorting Hat ceremony | Hall → Corridors |
 | `forbidden_tease_done` | Cast **Alohomora** on sealed latch | Reveals Fluffy / harp / trapdoor |
 | `fluffy_teased` | Talk to Fluffy | Enables meaningful trapdoor |
-| `trapdoor_ready` | Inspect trapdoor | Undercroft flagged for later |
-| `potions_lesson_started` / `potions_lesson_done` | Snape assignment + brew | Satchel craft complete |
-| `undercroft_tonic_ready` | Bottle Herbology bridge tonic | Modest undercroft-prep flag |
-
-### Sorting
-
-- Ceremony choices apply affinity **and** `lock_house` to the chosen house string.
-- Affinity house bumps no-op once `house_locked` is true.
-- UI shows locked house via `house_display()` / status line.
-
-### Objective UX
-
-Hubs keep a short **Next:** line so the player always knows the next GBC-style station.
+| `trapdoor_ready` | Inspect / open trapdoor | Descent to undercroft keys |
+| `potions_lesson_*` / `undercroft_tonic_ready` | Potions brew | Soft prep + bottle shortcut |
+| `undercroft_entered` | Enter keys chamber | Progress marker |
+| `keys_chamber_done` / `chess_chamber_done` / `undercroft_logic_done` | Clear each room | Chain forward |
+| `mirror_reached` | Look into Mirror | Year One climax tease complete |
 
 ### Spell toolkit (Year One)
 
-See [`year-one-spells.md`](./year-one-spells.md). Bar: Lumos · Leviosa · Flipendo · **Alohomora** (Hermione → corridor seal) · Incendio (Charms) · Protego / Immobulus (Defense). Patronum and late-series curses deferred. **Potions** uses inventory + Lumos only — no new spells.
+See [`year-one-spells.md`](./year-one-spells.md). No Patronum / late-series curses in undercroft.
 
 ---
 
 ## Highest-value missing (next chunks)
 
-1. Undercroft dungeon start (consume `trapdoor_ready` + optionally `undercroft_tonic_ready`).
+1. Mirror climax / Stone confrontation (consume `mirror_reached`).
 2. Stronger Diagon checklist (Gringotts → Ollivanders → gear).
 3. Quidditch decision (ship or skip).
 4. Flying / History classrooms.

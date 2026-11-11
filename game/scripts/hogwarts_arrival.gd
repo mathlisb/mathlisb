@@ -69,12 +69,14 @@ func _build_floor() -> void:
 func _refresh_objective() -> void:
 	if not GameState.is_sorted():
 		_objective.text = "Next: Sorting Hat ceremony (house lock)"
+	elif GameState.mirror_reached:
+		_objective.text = "Mirror reached · classes · corridor revisit OK"
 	elif GameState.trapdoor_ready and GameState.undercroft_tonic_ready:
-		_objective.text = "Next: undercroft later · classes as needed"
+		_objective.text = "Next: corridor trapdoor → undercroft (tonic ready)"
 	elif GameState.trapdoor_ready and not GameState.potions_lesson_done:
-		_objective.text = "Next: Potions (SE) for undercroft tonic · or classes"
+		_objective.text = "Next: Potions tonic (optional) · or corridor trapdoor"
 	elif GameState.trapdoor_ready:
-		_objective.text = "Next: Charms · Defense · Potions · undercroft later"
+		_objective.text = "Next: corridor trapdoor → undercroft"
 	elif GameState.fluffy_teased:
 		_objective.text = "Next: trapdoor under Fluffy (north corridor)"
 	elif GameState.forbidden_tease_done:
