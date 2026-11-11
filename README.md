@@ -13,10 +13,13 @@ Open **`game/project.godot`** in Godot 4.3+.
 ## Year One demo flow
 
 ```
-Main Menu → Privet Drive → Diagon Alley → Hogwarts Great Hall
+Main Menu → Privet Drive → Diagon Alley → Platform 9¾ → Hogwarts Great Hall
+  → Castle Corridors (Forbidden Corridor tease)
   → Charms Classroom (Incendio)
   → Defense Classroom (Protego / Immobulus + dummy)
 ```
+
+GBC plot beat map: [`docs/gbc-plot-beat-map.md`](docs/gbc-plot-beat-map.md).
 
 | Feature | How |
 |---------|-----|

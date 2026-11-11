@@ -143,10 +143,10 @@ prop_name = "Barrel"
 [node name="Sprite2D" parent="Interactables/Barrel"]
 texture = ExtResource("11_barrel")
 
-[node name="ToHogwarts" parent="." instance=ExtResource("14_portal")]
+[node name="ToPlatform" parent="." instance=ExtResource("14_portal")]
 position = Vector2(0, -170)
-target_scene = "res://scenes/hogwarts_arrival.tscn"
-prompt_text = "E — Hogwarts"
+target_scene = "res://scenes/platform_nine.tscn"
+prompt_text = "E — King's Cross"
 require_flag = &"talked_to_shopkeep"
 
 [node name="ToPrivet" parent="." instance=ExtResource("14_portal")]
