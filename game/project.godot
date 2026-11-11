@@ -7,8 +7,8 @@ config_version=5
 [application]
 
 config/name="Harry Potter Remaster"
-config/description="Modern remake inspired by the GBC Philosopher's Stone adventure. Diagon Alley vertical slice."
-config/version="0.2.0"
+config/description="Modern remake inspired by the GBC Philosopher's Stone adventure. Year One demo with save/load."
+config/version="0.3.0"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://assets/pixel/player.png"
@@ -18,6 +18,8 @@ config/icon="res://assets/pixel/player.png"
 Inventory="*res://autoload/inventory.gd"
 SpellBook="*res://autoload/spell_book.gd"
 GameState="*res://autoload/game_state.gd"
+SaveManager="*res://autoload/save_manager.gd"
+PauseMenu="*res://ui/pause_menu.tscn"
 
 [display]
 
@@ -84,6 +86,16 @@ spell_flipendo={
 toggle_inventory={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":105,"location":0,"echo":false,"script":null)
+]
+}
+spell_incendio={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":52,"key_label":0,"unicode":52,"location":0,"echo":false,"script":null)
+]
+}
+pause_menu={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 

@@ -70,11 +70,13 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 	if Input.is_action_just_pressed("spell_lumos"):
-		SpellBook.select_spell(&"lumos")
+		SpellBook.select_by_slot(1)
 	elif Input.is_action_just_pressed("spell_leviosa"):
-		SpellBook.select_spell(&"leviosa")
+		SpellBook.select_by_slot(2)
 	elif Input.is_action_just_pressed("spell_flipendo"):
-		SpellBook.select_spell(&"flipendo")
+		SpellBook.select_by_slot(3)
+	elif Input.is_action_just_pressed("spell_incendio"):
+		SpellBook.select_by_slot(4)
 
 	if Input.is_action_just_pressed("cast_spell"):
 		_try_cast()
