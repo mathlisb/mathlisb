@@ -25,7 +25,10 @@ Playable loop on macOS via the editor (or exported `.app`):
 
 Scenes: `scenes/main_menu.tscn` → `scenes/diagon_alley.tscn`.
 
-Placeholder art under `assets/placeholders/` is **original** (deep greens, candle gold, night blues — no ROM tiles).
+Pixel art under `assets/pixel/` is **original** (deep greens, candle gold, night blues — no ROM tiles). Legacy stubs remain in `assets/placeholders/` unused by the slice.
+
+### Art on Mac
+Godot imports PNGs with **Nearest** filter (set on sprites). If new sheets look blurry: select the texture → Import → Filter Off → Reimport. Player / shopkeep sheets are sliced in script from `player_sheet.png` / `shopkeep_sheet.png` (32×32 frames).
 
 ## How Matheus runs it on a Mac
 

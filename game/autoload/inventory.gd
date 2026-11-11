@@ -14,9 +14,9 @@ var is_open: bool = false
 
 func _ready() -> void:
 	# Starting kit for the slice — original placeholders, not ROM data.
-	add_item(&"wand", "Holly Wand", "Eleven inches. Swishy. Placeholder.", "res://assets/placeholders/item_wand.png", 1)
-	add_item(&"letter", "Hogwarts Letter", "You're accepted — Diagon Alley awaits.", "res://assets/placeholders/item_letter.png", 1)
-	add_item(&"knuts", "Knuts", "A modest pouch for shop windows.", "res://assets/placeholders/item_knuts.png", 17)
+	add_item(&"wand", "Holly Wand", "Eleven inches. Swishy. Placeholder.", "res://assets/pixel/item_wand.png", 1)
+	add_item(&"letter", "Hogwarts Letter", "You're accepted — Diagon Alley awaits.", "res://assets/pixel/item_letter.png", 1)
+	add_item(&"knuts", "Knuts", "A modest pouch for shop windows.", "res://assets/pixel/item_knuts.png", 17)
 
 
 func add_item(id: StringName, display_name: String, description: String, icon_path: String, qty: int = 1) -> void:
