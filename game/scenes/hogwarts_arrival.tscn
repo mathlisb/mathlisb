@@ -161,6 +161,11 @@ position = Vector2(-200, -40)
 target_scene = "res://scenes/defense_classroom.tscn"
 prompt_text = "E — Defense Class"
 
+[node name="ToPotions" parent="." instance=ExtResource("6_portal")]
+position = Vector2(200, 70)
+target_scene = "res://scenes/potions_classroom.tscn"
+prompt_text = "E — Potions Class"
+
 [node name="Player" parent="." instance=ExtResource("2_player")]
 position = Vector2(0, 90)
 

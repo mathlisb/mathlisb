@@ -28,6 +28,10 @@ var fluffy_teased: bool = false
 var trapdoor_ready: bool = false
 var charms_lesson_done: bool = false
 var defense_lesson_done: bool = false
+var potions_lesson_started: bool = false
+var potions_lesson_done: bool = false
+## Modest undercroft-prep tonic brewed in Potions (Year One craft).
+var undercroft_tonic_ready: bool = false
 var sorting_hint: String = ""
 ## Empty until Sorting ceremony locks a house.
 var sorted_house: String = ""
@@ -172,6 +176,9 @@ func to_save_dict() -> Dictionary:
 		"trapdoor_ready": trapdoor_ready,
 		"charms_lesson_done": charms_lesson_done,
 		"defense_lesson_done": defense_lesson_done,
+		"potions_lesson_started": potions_lesson_started,
+		"potions_lesson_done": potions_lesson_done,
+		"undercroft_tonic_ready": undercroft_tonic_ready,
 		"sorting_hint": sorting_hint,
 		"sorted_house": sorted_house,
 		"house_locked": house_locked,
@@ -199,6 +206,9 @@ func from_save_dict(data: Dictionary) -> void:
 	trapdoor_ready = bool(data.get("trapdoor_ready", false))
 	charms_lesson_done = bool(data.get("charms_lesson_done", false))
 	defense_lesson_done = bool(data.get("defense_lesson_done", false))
+	potions_lesson_started = bool(data.get("potions_lesson_started", false))
+	potions_lesson_done = bool(data.get("potions_lesson_done", false))
+	undercroft_tonic_ready = bool(data.get("undercroft_tonic_ready", false))
 	sorting_hint = str(data.get("sorting_hint", ""))
 	sorted_house = str(data.get("sorted_house", ""))
 	house_locked = bool(data.get("house_locked", false))

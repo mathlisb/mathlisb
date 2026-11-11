@@ -25,7 +25,7 @@
 | 4 | **Hogwarts Express / lakeside arrival** | **In** `lakeside_arrival.tscn` | Carriage + boats; no long travel sim |
 | 5 | **Great Hall / Sorting** | **In** `hogwarts_arrival.tscn` | Full ceremony **locks** `sorted_house` |
 | 6 | **Hogwarts corridors** | **In** `hogwarts_corridor.tscn` | Gated on `house_locked` |
-| 7 | **Classrooms** (Charms, Defense, …) | **In** Charms + Defense | Potions / Flying / History **Missing** |
+| 7 | **Classrooms** (Charms, Defense, Potions, …) | **In** Charms + Defense + **Potions stub** | Flying / History still **Missing** |
 | 8 | **Forbidden / Third-floor corridor** | **In / Stub** Alohomora seal → Fluffy → trapdoor | Flags undercroft; no dungeon dive yet |
 | 9 | **Quidditch** | **Missing** | Optional per plan |
 | 10 | **Detention / Forbidden Forest** | **Missing** | Later phase |
@@ -44,7 +44,7 @@ Main Menu
   → Black Lake / Express arrival
   → Hogwarts Great Hall            ← Sorting locks house · Hermione → Alohomora
   → Forbidden Corridor             ← Alohomora seal → Fluffy + trapdoor stub
-  ↳ Charms / Defense
+  ↳ Charms / Defense / Potions (bridge tonic → undercroft_tonic_ready)
 ```
 
 ### Gate flags (`GameState`)
@@ -59,6 +59,8 @@ Main Menu
 | `forbidden_tease_done` | Cast **Alohomora** on sealed latch | Reveals Fluffy / harp / trapdoor |
 | `fluffy_teased` | Talk to Fluffy | Enables meaningful trapdoor |
 | `trapdoor_ready` | Inspect trapdoor | Undercroft flagged for later |
+| `potions_lesson_started` / `potions_lesson_done` | Snape assignment + brew | Satchel craft complete |
+| `undercroft_tonic_ready` | Bottle Herbology bridge tonic | Modest undercroft-prep flag |
 
 ### Sorting
 
@@ -72,16 +74,16 @@ Hubs keep a short **Next:** line so the player always knows the next GBC-style s
 
 ### Spell toolkit (Year One)
 
-See [`year-one-spells.md`](./year-one-spells.md). Bar: Lumos · Leviosa · Flipendo · **Alohomora** (Hermione → corridor seal) · Incendio (Charms) · Protego / Immobulus (Defense). Patronum and late-series curses deferred.
+See [`year-one-spells.md`](./year-one-spells.md). Bar: Lumos · Leviosa · Flipendo · **Alohomora** (Hermione → corridor seal) · Incendio (Charms) · Protego / Immobulus (Defense). Patronum and late-series curses deferred. **Potions** uses inventory + Lumos only — no new spells.
 
 ---
 
 ## Highest-value missing (next chunks)
 
-1. Undercroft dungeon start (consume `trapdoor_ready`).
-2. Potions classroom + light inventory craft.
-3. Stronger Diagon checklist (Gringotts → Ollivanders → gear).
-4. Quidditch decision (ship or skip).
+1. Undercroft dungeon start (consume `trapdoor_ready` + optionally `undercroft_tonic_ready`).
+2. Stronger Diagon checklist (Gringotts → Ollivanders → gear).
+3. Quidditch decision (ship or skip).
+4. Flying / History classrooms.
 
 ---
 
