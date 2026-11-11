@@ -2,7 +2,7 @@
 
 **Purpose:** Align the remaster’s Year One hubs with the GBC adventure’s major location order (design reference only — no ROM text/assets).  
 **Remaster engine:** Godot 4 2D · macOS-first.  
-**Updated:** 2026-11-11 (Platform 9¾ + Forbidden Corridor fidelity chunk).
+**Updated:** 2026-11-11 (Express / Sorting lock / Fluffy–trapdoor chunk).
 
 ## Legend
 
@@ -21,15 +21,15 @@
 |---|----------------------|--------------|-----|
 | 1 | **Privet Drive** — letter, leave the Dursleys | **In** `privet_drive.tscn` | Short but objective-clear |
 | 2 | **Diagon Alley** — shops, wand, gear | **In** `diagon_alley.tscn` | Gringotts / full shop quests still thin |
-| 3 | **King’s Cross / Platform 9¾** — board the Express | **In** `platform_nine.tscn` | Express travel room still **Missing** |
-| 4 | **Hogwarts Express** (travel beat) | **Missing** | Barrier dialogue stands in; optional later room |
-| 5 | **Great Hall / Sorting arrival** | **In / Stub** `hogwarts_arrival.tscn` | Hat lean only — not full ceremony |
-| 6 | **Hogwarts corridors** — navigate the castle | **In** `hogwarts_corridor.tscn` | Mid-castle hub toward Forbidden |
+| 3 | **King’s Cross / Platform 9¾** — board the Express | **In** `platform_nine.tscn` | Barrier + porter |
+| 4 | **Hogwarts Express / lakeside arrival** | **In** `lakeside_arrival.tscn` | Carriage + boats; no long travel sim |
+| 5 | **Great Hall / Sorting** | **In** `hogwarts_arrival.tscn` | Full ceremony **locks** `sorted_house` |
+| 6 | **Hogwarts corridors** | **In** `hogwarts_corridor.tscn` | Gated on `house_locked` |
 | 7 | **Classrooms** (Charms, Defense, …) | **In** Charms + Defense | Potions / Flying / History **Missing** |
-| 8 | **Forbidden / Third-floor corridor** | **Stub** sealed door + prefect | Fluffy / trapdoor chain **Missing** |
+| 8 | **Forbidden / Third-floor corridor** | **In / Stub** seal → Fluffy → trapdoor | Flags undercroft; no dungeon dive yet |
 | 9 | **Quidditch** | **Missing** | Optional per plan |
 | 10 | **Detention / Forbidden Forest** | **Missing** | Later phase |
-| 11 | **Under the trapdoor** (keys / chess / potions) | **Missing** | Phase 3 |
+| 11 | **Under the trapdoor** (keys / chess / potions) | **Missing** | `trapdoor_ready` set; content later |
 | 12 | **Mirror / climax** | **Missing** | Phase 3 |
 
 ---
@@ -38,47 +38,46 @@
 
 ```
 Main Menu
-  → Privet Drive          (letter → Hagrid → gate)
-  → Diagon Alley          (shopkeep → north to station)
-  → Platform 9¾           (porter + barrier → Express door)
-  → Hogwarts Great Hall   (Ron / Hermione / Hat · classes · corridors)
-  → Hogwarts Corridors    (prefect + sealed Forbidden door)
-  ↳ Charms / Defense      (side hubs from Hall)
+  → Privet Drive
+  → Diagon Alley
+  → Platform 9¾
+  → Black Lake / Express arrival   ← NEW
+  → Hogwarts Great Hall            ← Sorting locks house
+  → Forbidden Corridor             ← Fluffy + trapdoor stub
+  ↳ Charms / Defense
 ```
 
 ### Gate flags (`GameState`)
 
-| Flag | Set when | Unlocks |
-|------|----------|---------|
+| Flag | Set when | Unlocks / meaning |
+|------|----------|-------------------|
 | `left_privet` | Talk to Hagrid | Privet → Diagon |
 | `talked_to_shopkeep` | Talk to shopkeep | Diagon → Platform |
-| `boarded_express` | Run the 9¾ barrier | Platform → Hogwarts |
-| `forbidden_tease_done` | Inspect sealed door | Objective advances (no new portal yet) |
+| `boarded_express` | Run the 9¾ barrier | Platform → Lakeside |
+| `visited_express` / `lakeside_arrived` | Enter lakeside hub | Progress markers |
+| `house_locked` + `sorted_house` | Sorting Hat ceremony | Hall → Corridors |
+| `forbidden_tease_done` | Open sealed door | Reveals Fluffy / harp / trapdoor |
+| `fluffy_teased` | Talk to Fluffy | Enables meaningful trapdoor |
+| `trapdoor_ready` | Inspect trapdoor | Undercroft flagged for later |
 
-Also tracked: `reached_platform`, `visited_corridor`, plus existing Hogwarts / lesson flags.
+### Sorting
+
+- Ceremony choices apply affinity **and** `lock_house` to the chosen house string.
+- Affinity house bumps no-op once `house_locked` is true.
+- UI shows locked house via `house_display()` / status line.
 
 ### Objective UX
 
-Hubs surface a short **Next:** line (hint and/or objective label) so the player always knows the next GBC-style station — not a quest log, just station clarity.
-
----
-
-## Dialogue tightening notes
-
-- Privet / Diagon / Hall lines state the **route** (Diagon → 9¾ → Hogwarts → corridors), not flavor-only.
-- Platform porter + barrier choices are the boarding beat.
-- Corridor prefect + sealed door are the Year One “out of bounds” tease without opening Fluffy yet.
-- No verbatim GBC cart strings; pacing and objective shape only.
+Hubs keep a short **Next:** line so the player always knows the next GBC-style station.
 
 ---
 
 ## Highest-value missing (next chunks)
 
-1. Express / lakeside arrival room (even one beat).
-2. Full Sorting ceremony with house lock.
-3. Potions classroom + light inventory craft.
-4. Forbidden **puzzle gate** (Fluffy tease → trapdoor).
-5. Stronger Diagon checklist (Gringotts → Ollivanders → gear).
+1. Undercroft dungeon start (consume `trapdoor_ready`).
+2. Potions classroom + light inventory craft.
+3. Stronger Diagon checklist (Gringotts → Ollivanders → gear).
+4. Quidditch decision (ship or skip).
 
 ---
 

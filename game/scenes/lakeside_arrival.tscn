@@ -1,0 +1,182 @@
+[gd_scene load_steps=13 format=3 uid="uid://clakeside001hp"]
+
+[ext_resource type="Script" path="res://scripts/lakeside_arrival.gd" id="1_room"]
+[ext_resource type="PackedScene" path="res://characters/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://ui/dialogue_ui.tscn" id="3_dlg"]
+[ext_resource type="PackedScene" path="res://ui/spell_hud.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://ui/inventory_ui.tscn" id="5_inv"]
+[ext_resource type="PackedScene" path="res://scenes/scene_portal.tscn" id="6_portal"]
+[ext_resource type="Texture2D" path="res://assets/pixel/lakeside_bg.png" id="7_lake"]
+[ext_resource type="Texture2D" path="res://assets/pixel/express_carriage.png" id="8_car"]
+[ext_resource type="Texture2D" path="res://assets/pixel/npc_ron.png" id="9_ron"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_h"]
+size = Vector2(700, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall_v"]
+size = Vector2(24, 420)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc"]
+size = Vector2(44, 40)
+
+[node name="LakesideArrival" type="Node2D"]
+script = ExtResource("1_room")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.58, 0.66, 0.82, 1)
+
+[node name="Floor" type="Node2D" parent="."]
+
+[node name="Tint" type="Polygon2D" parent="Floor"]
+z_index = -4
+color = Color(0.08, 0.12, 0.2, 1)
+polygon = PackedVector2Array(-380, -240, 380, -240, 380, 240, -380, 240)
+
+[node name="Tiles" type="Node2D" parent="Floor"]
+
+[node name="LakeBackdrop" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(0, -120)
+scale = Vector2(2.7, 2.5)
+texture = ExtResource("7_lake")
+
+[node name="CarriageSprite" type="Sprite2D" parent="."]
+texture_filter = 0
+position = Vector2(-140, 30)
+scale = Vector2(2.2, 2.2)
+texture = ExtResource("8_car")
+
+[node name="Walls" type="StaticBody2D" parent="."]
+collision_layer = 1
+
+[node name="Top" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, -200)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Bottom" type="CollisionShape2D" parent="Walls"]
+position = Vector2(0, 200)
+shape = SubResource("RectangleShape2D_wall_h")
+
+[node name="Left" type="CollisionShape2D" parent="Walls"]
+position = Vector2(-330, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Right" type="CollisionShape2D" parent="Walls"]
+position = Vector2(330, 0)
+shape = SubResource("RectangleShape2D_wall_v")
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="Carriage" type="Area2D" parent="Interactables"]
+position = Vector2(-140, 50)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Carriage"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Prompt" type="Label" parent="Interactables/Carriage"]
+visible = false
+offset_left = -64.0
+offset_top = -36.0
+offset_right = 64.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Express"
+horizontal_alignment = 1
+
+[node name="Boat" type="Area2D" parent="Interactables"]
+position = Vector2(110, 60)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interactables/Boat"]
+shape = SubResource("RectangleShape2D_npc")
+
+[node name="Sprite" type="Sprite2D" parent="Interactables/Boat"]
+texture_filter = 0
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("9_ron")
+modulate = Color(0.75, 0.85, 1, 0.85)
+
+[node name="Prompt" type="Label" parent="Interactables/Boat"]
+visible = false
+offset_left = -56.0
+offset_top = -36.0
+offset_right = 56.0
+offset_bottom = -16.0
+theme_override_colors/font_color = Color(0.91, 0.863, 0.784, 1)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 11
+text = "E — Lake boats"
+horizontal_alignment = 1
+
+[node name="ToPlatform" parent="." instance=ExtResource("6_portal")]
+position = Vector2(0, 160)
+target_scene = "res://scenes/platform_nine.tscn"
+prompt_text = "E — Platform 9¾"
+
+[node name="ToHall" parent="." instance=ExtResource("6_portal")]
+position = Vector2(0, -170)
+target_scene = "res://scenes/hogwarts_arrival.tscn"
+prompt_text = "E — Great Hall"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+position = Vector2(0, 90)
+
+[node name="DialogueUI" parent="." instance=ExtResource("3_dlg")]
+
+[node name="SpellHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="InventoryUI" parent="." instance=ExtResource("5_inv")]
+
+[node name="RoomTitle" type="CanvasLayer" parent="."]
+layer = 5
+
+[node name="Label" type="Label" parent="RoomTitle"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 14.0
+offset_right = 220.0
+offset_bottom = 42.0
+theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.95)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 20
+text = "Black Lake — Arrival"
+horizontal_alignment = 1
+
+[node name="HUDHints" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Hint" type="Label" parent="HUDHints"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -420.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.7, 0.78, 0.72, 0.9)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "WASD · E · I"
+horizontal_alignment = 2
+
+[node name="Objective" type="Label" parent="HUDHints"]
+offset_left = 16.0
+offset_top = 48.0
+offset_right = 480.0
+offset_bottom = 72.0
+theme_override_colors/font_color = Color(0.831, 0.659, 0.294, 0.9)
+theme_override_colors/font_outline_color = Color(0.059, 0.102, 0.18, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 12
+text = "Next: boats to Great Hall"

@@ -1,5 +1,5 @@
 extends Node2D
-## Hogwarts arrival stub — Great Hall / courtyard beat.
+## Great Hall — Sorting ceremony locks house; corridors unlock after.
 
 @onready var _camera: Camera2D = $Player/Camera2D
 @onready var _ron: Area2D = $Interactables/Ron
@@ -19,19 +19,27 @@ func _ready() -> void:
 	for area in [_ron, _hermione, _hat]:
 		area.body_entered.connect(_make_prompt_cb(area, true))
 		area.body_exited.connect(_make_prompt_cb(area, false))
-	_hint.text = "WASD · E · Corridors north · Charms E · Defense W"
+	_hint.text = "WASD · E · Sort first · then north corridors"
 	_refresh_objective()
 	_refresh_status()
 	GameState.flags_changed.connect(_refresh_status)
 	GameState.flags_changed.connect(_refresh_objective)
 	await get_tree().create_timer(0.3).timeout
-	GameState.start_dialogue(
-		"Narrator",
-		PackedStringArray([
-			"Hogwarts. Meet Ron and Hermione, hear the Sorting Hat — then the north door opens the castle corridors.",
-			"Charms is east. Defense is west. The sealed third-floor door waits up the corridor path.",
-		])
-	)
+	if not GameState.is_sorted():
+		GameState.start_dialogue(
+			"Narrator",
+			PackedStringArray([
+				"The Great Hall. Torches, long tables — and the Sorting Hat waiting for your name.",
+				"Next: speak to the Hat. House lock opens the north corridors.",
+			])
+		)
+	else:
+		GameState.start_dialogue(
+			"Narrator",
+			PackedStringArray([
+				"Sorted into %s. Charms east, Defense west, corridors north." % GameState.sorted_house.capitalize(),
+			])
+		)
 
 
 func _make_prompt_cb(area: Area2D, show: bool) -> Callable:
@@ -57,17 +65,23 @@ func _build_floor() -> void:
 
 
 func _refresh_objective() -> void:
-	if GameState.forbidden_tease_done:
-		_objective.text = "Next: Charms east · Defense west · classes"
+	if not GameState.is_sorted():
+		_objective.text = "Next: Sorting Hat ceremony (house lock)"
+	elif GameState.trapdoor_ready:
+		_objective.text = "Next: Charms east · Defense west · undercroft later"
+	elif GameState.fluffy_teased:
+		_objective.text = "Next: trapdoor under Fluffy (north corridor)"
+	elif GameState.forbidden_tease_done:
+		_objective.text = "Next: Fluffy tease in the Forbidden Corridor"
 	elif GameState.visited_corridor:
-		_objective.text = "Next: sealed third-floor door (north corridor)"
+		_objective.text = "Next: sealed third-floor door (north)"
 	else:
-		_objective.text = "Next: friends · Hat · north corridors"
+		_objective.text = "Next: north corridors · Forbidden tease"
 
 
 func _refresh_status() -> void:
-	_status.text = "House lean: %s · Ron %d · Hermione %d" % [
-		String(GameState.leading_house()).capitalize(),
+	_status.text = "House: %s · Ron %d · Hermione %d" % [
+		GameState.house_display(),
 		GameState.ron_trust,
 		GameState.hermione_trust,
 	]
@@ -92,31 +106,58 @@ func _in(area: Area2D) -> bool:
 
 
 func _talk_ron() -> void:
+	if GameState.is_sorted():
+		GameState.start_dialogue(
+			"Ron",
+			PackedStringArray([
+				"Sorted already? Brilliant. Stick with your table — and don't poke Fluffy alone.",
+				"Corridors north when you're ready. Classes east and west.",
+			]),
+			[
+				{"text": "We'll scout together later.", "effects": {"ron_trust": 1, "gryffindor": 0}},
+				{"text": "Classes first.", "effects": {"ron_trust": 1}},
+			],
+			"How do you answer Ron?"
+		)
+		return
 	GameState.start_dialogue(
 		"Ron",
 		PackedStringArray([
-			"I'm Ron. First years get lost — stick to the Hall until you know the stairs.",
-			"Heard there's a corridor upstairs that's out of bounds. We're not going near it. Yet.",
+			"I'm Ron. Hat's waiting — don't overthink it. Mum says the Hat already knows.",
+			"After you're Sorted, the north door opens the corridors. Third floor's out of bounds.",
 		]),
 		[
-			{"text": "Stick with me — we'll figure it out.", "effects": {"ron_trust": 2, "gryffindor": 1}},
-			{"text": "Any tips before classes?", "effects": {"ron_trust": 1, "hufflepuff": 1}},
-			{"text": "I want the best seat near the feast.", "effects": {"slytherin": 1}},
+			{"text": "Stick with me after Sorting.", "effects": {"ron_trust": 2, "gryffindor": 1}},
+			{"text": "Any tips for the Hat?", "effects": {"ron_trust": 1, "hufflepuff": 1}},
+			{"text": "I want the best table.", "effects": {"slytherin": 1}},
 		],
 		"How do you answer Ron?"
 	)
 
 
 func _talk_hermione() -> void:
+	if GameState.is_sorted():
+		GameState.start_dialogue(
+			"Hermione",
+			PackedStringArray([
+				"%s suits the data so far. Charms east, Defense west — Forbidden Corridor later, with a plan." % GameState.sorted_house.capitalize(),
+			]),
+			[
+				{"text": "Study first, then corridors.", "effects": {"hermione_trust": 1}},
+				{"text": "We'll map the third floor carefully.", "effects": {"hermione_trust": 1, "ravenclaw": 0}},
+			],
+			"How do you answer Hermione?"
+		)
+		return
 	GameState.start_dialogue(
 		"Hermione",
 		PackedStringArray([
-			"Hermione. Charms east, Defense west — and don't poke the third-floor seal without a plan.",
-			"I've mapped a route. Classes first; forbidden corridors later.",
+			"Hermione. The Sorting isn't a suggestion — speak to the Hat before you wander.",
+			"I've read the corridor rules twice. Third floor stays sealed until we're ready.",
 		]),
 		[
-			{"text": "I'd love to study with you.", "effects": {"hermione_trust": 2, "ravenclaw": 1}},
-			{"text": "After we scout the corridors?", "effects": {"hermione_trust": 1, "gryffindor": 1}},
+			{"text": "I'll Sort, then find you.", "effects": {"hermione_trust": 2, "ravenclaw": 1}},
+			{"text": "Maybe explore a little first?", "effects": {"hermione_trust": 1, "gryffindor": 1}},
 			{"text": "Tonight's for meeting people.", "effects": {"hufflepuff": 1}},
 		],
 		"How do you answer Hermione?"
@@ -124,13 +165,45 @@ func _talk_hermione() -> void:
 
 
 func _talk_hat() -> void:
+	if GameState.is_sorted():
+		GameState.start_dialogue(
+			"Sorting Hat",
+			PackedStringArray([
+				"Already decided. %s. The castle remembers — and so do I." % GameState.sorted_house.capitalize(),
+				"North door's open. Mind the third floor.",
+			])
+		)
+		_refresh_status()
+		return
+
 	var lean := GameState.leading_house()
 	GameState.sorting_hint = String(lean)
+	# Ceremony: final choices nudge affinity, then lock_house effect seals it.
 	GameState.start_dialogue(
 		"Sorting Hat",
 		PackedStringArray([
-			"Not a full Sorting — a lean for now. Classes and choices will finish the work.",
-			"I sense… %s. North lies the corridor you shouldn't open yet." % String(lean).capitalize(),
-		])
+			"Hmm… difficult. Courage, loyalty, wit, ambition — you've shown traces of each.",
+			"The lean so far is %s. One last word before I call it." % String(lean).capitalize(),
+			"Speak, and I lock your house for Year One.",
+		]),
+		[
+			{
+				"text": "Put me where I'll stand with friends.",
+				"effects": {"gryffindor": 2, "lock_house": "gryffindor"},
+			},
+			{
+				"text": "Put me where hard work is honored.",
+				"effects": {"hufflepuff": 2, "lock_house": "hufflepuff"},
+			},
+			{
+				"text": "Put me where questions are welcome.",
+				"effects": {"ravenclaw": 2, "lock_house": "ravenclaw"},
+			},
+			{
+				"text": "Put me where ambition finds a path.",
+				"effects": {"slytherin": 2, "lock_house": "slytherin"},
+			},
+		],
+		"How do you answer the Sorting Hat?"
 	)
 	_refresh_status()

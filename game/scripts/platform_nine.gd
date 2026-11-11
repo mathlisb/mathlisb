@@ -56,7 +56,7 @@ func _build_floor() -> void:
 
 func _refresh_objective() -> void:
 	if GameState.boarded_express:
-		_objective.text = "Next: Hogwarts Great Hall (north door)"
+		_objective.text = "Next: Express / Black Lake (north door)"
 	else:
 		_objective.text = "Next: run the barrier · talk to the porter"
 
